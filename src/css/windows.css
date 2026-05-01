@@ -1,0 +1,601 @@
+/* Base window styles */
+.about-me-window {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 320px;
+  background-color:#121212;
+  border: 6px solid #D9D9D9;
+  z-index: 3000;
+  font-family: "VT323", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.projects-window,
+.full-about-me-window,
+.learning-outcomes-window {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  max-width: 1400px;
+  height: 85%;
+  background-color:#121212;
+  border: 6px solid #D9D9D9;
+  z-index: 3000;
+  font-family: "VT323", monospace;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: default;
+}
+
+.contact-window {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  max-width: 1400px;
+  height: 85%;
+  background-color:#121212;
+  border: 6px solid #D9D9D9;
+  z-index: 3000;
+  font-family: "VT323", monospace;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+  overflow: hidden; /* Voeg dit toe */
+}
+
+.contact-window .window-header {
+  flex-shrink: 0;
+}
+
+.contact-window .window-content {
+  overflow-y: auto;
+  overflow-x: hidden; /* Voeg dit toe */
+  flex: 1;
+  padding: 20px 20px 10px 20px;
+  height: calc(100% - 50px);
+}
+
+.learning-outcomes-window {
+  padding-bottom: 0;
+}
+
+.logo-iterations-window,
+.interview-details-window,
+.content-strategy-window,
+.research-details-window,
+.wireframe-details-window {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+  max-width: 1600px;
+  height: 90%;
+  background-color:#121212;
+  border: 6px solid #D9D9D9;
+  z-index: 3000;
+  font-family: "VT323", monospace;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Window header */
+.window-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #D9D9D9;
+  color: #121212;
+  padding: 3px 10px;
+  font-family: 'Upheaval', monospace;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.window-title {
+  font-size: 20px;
+}
+
+.window-close {
+  position: relative;
+  z-index: 9999 !important;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Window content */
+.window-content {
+  padding: 15px;
+  color: white;
+}
+
+.window-content p {
+  margin: 0;
+  line-height: 1.4;
+  font-size: 20px;
+}
+
+/* Large window content */
+.logo-iterations-window .window-content,
+.interview-details-window .window-content,
+.content-strategy-window .window-content,
+.research-details-window .window-content,
+.wireframe-details-window .window-content {
+  overflow-y: auto;
+  height: 100%;
+  padding: 20px;
+}
+
+.full-about-me-window .window-header {
+  flex-shrink: 0;
+}
+
+.full-about-me-window .window-content {
+  overflow-y: auto;
+  height: 100%;
+  padding: 20px;
+}
+
+/* Window footer */
+.window-footer {
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px 15px 15px;
+}
+
+/* About button */
+.about-button {
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-family: 'PixelOperatorBold', 'PixelOperator', monospace;
+}
+
+.about-button::after {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-image: url('../imgs/pijl.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: 8px;
+  transform: rotate(45deg);
+}
+
+/* Window states */
+.window-active {
+  z-index: 3500 !important;
+}
+
+.window-inactive {
+  opacity: 0.5;
+  z-index: 1001;
+  filter: blur(1px);
+}
+
+/* About me content */
+.about-header {
+  margin-bottom: 30px;
+}
+
+.about-header h1 {
+  font-family: 'Upheaval', monospace;
+  font-size: 50px;
+  margin: 0;
+  line-height: 1;
+}
+
+.about-header h2 {
+  font-family: 'PixelOperatorBold', monospace;
+  font-size: 30px;
+  margin-top: 10px;
+}
+
+.window-content ul {
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.window-content li {
+  font-size: 18px;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+/* Content strategy specific scrolling */
+.content-strategy-window .window-content {
+  overflow-y: scroll;
+  height: calc(100% - 60px);
+  padding: 20px;
+  padding-bottom: 80px;
+}
+
+.project-header {
+  flex-shrink: 0;
+}
+
+.project-content-container {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  height: 100%;
+}
+
+.project-menu {
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.project-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  height: 100%;
+}
+
+.learning-outcomes-window .project-content-container {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  height: 100%;
+}
+
+.learning-outcomes-window .project-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  padding-bottom: 60px;
+  height: 100%;
+  max-height: calc(100vh - 150px);
+}
+
+/* Contact Window Specific Styles */
+.contact-header {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #333;
+}
+
+.contact-picture-section {
+  text-align: center;
+}
+
+.contact-picture-frame {
+  width: 120px;
+  height: 120px;
+  border: 4px solid #D9D9D9;
+  background: #000;
+  margin-bottom: 10px;
+  image-rendering: pixelated;
+}
+
+.contact-picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+  filter: contrast(1.2) brightness(0.9);
+}
+
+.availability-status {
+  font-family: 'PixelOperator', monospace;
+  font-size: 12px;
+  color: #00ff00;
+  background: #000;
+  padding: 2px 8px;
+  border: 1px solid #00ff00;
+}
+
+.contact-info-header {
+  flex: 1;
+}
+
+.contact-name {
+  font-family: 'Upheaval', monospace;
+  font-size: 32px;
+  margin: 0 0 5px 0;
+  color: #D9D9D9;
+  line-height: 1;
+}
+
+.contact-subtitle {
+  font-family: 'PixelOperatorBold', monospace;
+  font-size: 16px;
+  color: #00ff00;
+  margin-bottom: 10px;
+}
+
+.contact-tagline {
+  font-family: 'PixelOperator', monospace;
+  font-size: 14px;
+  color: #888;
+  font-style: italic;
+}
+
+/* Contact Stats */
+.contact-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 2px solid #333;
+  background: rgba(217, 217, 217, 0.05);
+}
+
+.contact-stat-item {
+  text-align: center;
+}
+
+.contact-stat-label {
+  font-family: 'PixelOperator', monospace;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.contact-stat-value {
+  font-family: 'PixelOperatorBold', monospace;
+  font-size: 16px;
+  color: #D9D9D9;
+}
+
+/* Contact Section Titles */
+.contact-section-title {
+  font-family: 'PixelOperatorBold', monospace;
+  font-size: 20px;
+  color: #00ff00;
+  margin: 30px 0 15px 0;
+  border-left: 4px solid #00ff00;
+  padding-left: 10px;
+}
+
+/* Contact About Section */
+.contact-about-section {
+  margin-bottom: 30px;
+}
+
+.contact-about-section p {
+  font-family: 'Space Mono', monospace;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  color: #D9D9D9;
+}
+
+/* Contact Methods */
+.contact-methods-section {
+  margin-bottom: 30px;
+}
+
+.contact-method {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 2px solid #333;
+  background: rgba(217, 217, 217, 0.02);
+  transition: all 0.2s ease;
+}
+
+.contact-method:hover {
+  border-color: #00ff00;
+  background: rgba(0, 255, 0, 0.05);
+}
+
+.method-icon {
+  font-size: 24px;
+  width: 40px;
+  text-align: center;
+}
+
+.method-info {
+  flex: 1;
+}
+
+.method-title {
+  font-family: 'PixelOperatorBold', monospace;
+  font-size: 16px;
+  color: #D9D9D9;
+  margin-bottom: 3px;
+}
+
+.method-description {
+  font-family: 'PixelOperator', monospace;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.method-action {
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  color: #00ff00;
+  cursor: pointer;
+}
+
+/* Looking For Section */
+.looking-for-section {
+  margin-bottom: 30px;
+}
+
+.opportunity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.opportunity-item {
+  padding: 15px;
+  border: 2px solid #333;
+  background: rgba(217, 217, 217, 0.02);
+}
+
+.opportunity-title {
+  font-family: 'PixelOperatorBold', monospace;
+  font-size: 14px;
+  color: #D9D9D9;
+  margin-bottom: 8px;
+}
+
+.opportunity-description {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: #888;
+  line-height: 1.4;
+}
+
+/* CTA Section */
+.contact-cta-section {
+  margin-bottom: 20px;
+}
+
+.cta-content p {
+  font-family: 'Space Mono', monospace;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  color: #D9D9D9;
+}
+
+.cta-button-container {
+  text-align: left;
+}
+
+.cta-button {
+  background-color: #00ff00;
+  color: #000;
+  padding: 15px 30px;
+  font-family: 'PixelOperatorBold', monospace;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-top: 3px solid #ffffff;
+  border-left: 3px solid #ffffff;
+  border-right: 3px solid #008800;
+  border-bottom: 3px solid #008800;
+  box-shadow: 2px 2px 0px #000000;
+  position: relative;
+  top: 0;
+  left: 0;
+  transition: all 0.1s;
+}
+
+.cta-button:hover {
+  background-color: #00cc00;
+}
+
+.cta-button:active {
+  background-color: #008800;
+  border-right: 3px solid #ffffff;
+  border-bottom: 3px solid #ffffff;
+  box-shadow: 0px 0px 0px #000000;
+  top: 2px;
+  left: 2px;
+}
+
+/* =====================
+   MOBILE WINDOWS
+   ===================== */
+@media (max-width: 768px) {
+  /* All large windows go full-screen */
+  .projects-window,
+  .full-about-me-window,
+  .learning-outcomes-window,
+  .contact-window,
+  .logo-iterations-window,
+  .interview-details-window,
+  .content-strategy-window,
+  .research-details-window,
+  .wireframe-details-window {
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    border: none !important;
+    border-top: 4px solid #D9D9D9 !important;
+    box-sizing: border-box;
+  }
+
+  /* Window content: fills remaining height and scrolls */
+  .full-about-me-window .window-content,
+  .contact-window .window-content,
+  .logo-iterations-window .window-content,
+  .interview-details-window .window-content,
+  .content-strategy-window .window-content,
+  .research-details-window .window-content,
+  .wireframe-details-window .window-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px;
+    /* Fallback for when parent is display:block */
+    height: calc(100vh - 44px);
+    box-sizing: border-box;
+  }
+
+  /* Contact stats: 2 columns instead of 4 */
+  .contact-stats,
+  .profile-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Contact/profile header: stack vertically */
+  .contact-header,
+  .profile-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Opportunity grid: 1 column */
+  .opportunity-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* About-me small window: static in mobile flow, always fully visible */
+  .about-me-window {
+    position: static !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    opacity: 1 !important;
+    filter: none !important;
+    z-index: auto !important;
+  }
+
+  /* Window title smaller */
+  .window-title {
+    font-size: 16px;
+  }
+}
