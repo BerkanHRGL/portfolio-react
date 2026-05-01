@@ -13,8 +13,9 @@ export default function LoginScreen({ onConfirm }) {
         await new Promise(r => setTimeout(r, 250));
         if (cancelled) return;
         const s = new Audio('/sounds/typing-sound.mp3');
-        s.volume = 0.3;
-        s.play().catch(() => {});
+        s.volume = 0.5;
+        s.play().catch(err => console.error('play failed:', err));
+        setTimeout(() => { s.pause(); s.currentTime = 0; }, 400);
         setDisplay(prev => prev + '*');
       }
     }
