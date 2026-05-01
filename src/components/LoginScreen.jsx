@@ -1,29 +1,25 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 const PASSWORD = '********';
 
 export default function LoginScreen({ onConfirm }) {
   const [display, setDisplay] = useState('');
-  const soundRef = useRef(null);
 
   useEffect(() => {
-    soundRef.current = new Audio('sounds/typing-sound.mp3');
-    soundRef.current.volume = 0.3;
-
     let cancelled = false;
     async function typePassword() {
       for (let i = 0; i < PASSWORD.length; i++) {
         if (cancelled) return;
         await new Promise(r => setTimeout(r, 250));
         if (cancelled) return;
-        soundRef.current.currentTime = 0;
-        soundRef.current.play().catch(() => {});
+        const s = new Audio('/sounds/typing-sound.mp3');
+        s.volume = 0.3;
+        s.play().catch(() => {});
         setDisplay(prev => prev + '*');
       }
-      soundRef.current.pause();
     }
     typePassword();
-    return () => { cancelled = true; soundRef.current?.pause(); };
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
