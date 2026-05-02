@@ -1106,7 +1106,7 @@
 /* Image container */
 .preview-img-wrapper {
   width: 100%;
-  height: 600px;
+  height: clamp(300px, 52vh, 650px);
   flex-shrink: 0;
   overflow: hidden;
   background: #1a1a1a;
@@ -1244,6 +1244,29 @@
 .card-view-btn:hover {
   background: #D9D9D9;
   color: #000;
+}
+
+/* Medium / small-laptop showcase (769px–1280px) */
+@media (min-width: 769px) and (max-width: 1280px) {
+  .showcase-left {
+    padding: 24px 28px 24px 32px;
+  }
+
+  .showcase-title {
+    font-size: 28px;
+  }
+
+  .showcase-card {
+    padding: 36px 20px;
+  }
+
+  .card-title {
+    font-size: 20px;
+  }
+
+  .card-body {
+    padding: 18px;
+  }
 }
 
 /* Mobile showcase */
@@ -1453,7 +1476,7 @@
 /* Full-width thumbnail */
 .detail-thumbnail-wrap {
   width: 90%;
-  height: 800px;
+  height: clamp(220px, 48vh, 800px);
   overflow: hidden;
   margin: 48px auto 0;
   border-radius: 12px;
@@ -1544,6 +1567,17 @@
 
 .detail-content .research-section h3,
 .detail-content .design-process-section h3 { margin-top: 40px; }
+
+/* Tablet / small desktop (769px–1100px) */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .detail-hero {
+    padding: 40px 36px 28px;
+    gap: 32px;
+  }
+  .detail-title { font-size: 36px; }
+  .detail-content { padding: 40px 36px 80px; }
+  .detail-stat-number { font-size: 40px; }
+}
 
 /* Mobile */
 @media (max-width: 768px) {
