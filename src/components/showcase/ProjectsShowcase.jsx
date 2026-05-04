@@ -68,6 +68,11 @@ export default function ProjectsShowcase({ onClose, onViewProject }) {
             alt="Project Preview"
             className={fading ? 'fading' : ''}
           />
+          {showcaseProjects[activeIndex]?.comingSoon && (
+            <div className="preview-coming-soon">
+              <span>COMING SOON</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -94,9 +99,13 @@ export default function ProjectsShowcase({ onClose, onViewProject }) {
                   <span>{p.year}</span>
                 </div>
                 <p className="card-desc">{p.desc}</p>
-                <button className="card-view-btn" onClick={() => handleView(p.key)}>
-                  VIEW &#x2192;
-                </button>
+                {p.comingSoon ? (
+                  <span className="card-coming-soon">COMING SOON</span>
+                ) : (
+                  <button className="card-view-btn" onClick={() => handleView(p.key)}>
+                    VIEW &#x2192;
+                  </button>
+                )}
               </div>
             </div>
           </div>

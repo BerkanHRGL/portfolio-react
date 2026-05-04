@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { projectData } from '../../data/projectData';
 import { showcaseProjects } from '../../data/showcaseProjects';
+import { playGlitchTransition } from '../../utils/glitchTransition';
 
 export default function ProjectDetail({ projectKey, onBack }) {
   const scrollRef = useRef(null);
@@ -62,7 +63,8 @@ export default function ProjectDetail({ projectKey, onBack }) {
       'github-repo-petchi-button': 'https://github.com/BerkanHRGL/pet-chi',
       'dashboard-link-button': 'https://i554530.hera.fontysict.net',
       'version-control-button': 'https://github.com/BerkanHRGL?tab=repositories',
-      'live-demo-button': 'https://i554530.hera.fontysict.net/pet-chi/',
+      'live-demo-button': 'https://pet-chi-mu.vercel.app/',
+      'github-repo-overruled-button': 'https://github.com/BerkanHRGL/overruled',
     };
     const pdfMap = {
       'petchi-research-button': 'pdfs/field-research-petchi.pdf',
@@ -95,9 +97,45 @@ export default function ProjectDetail({ projectKey, onBack }) {
     }
     content.addEventListener('click', handleContentClick);
 
+    // Wire up image carousels
+    const carouselCleanups = [];
+    content.querySelectorAll('.image-carousel').forEach(carousel => {
+      const img = carousel.querySelector('img');
+      const prevBtn = carousel.querySelector('.carousel-prev');
+      const nextBtn = carousel.querySelector('.carousel-next');
+      const counterEl = carousel.parentElement?.querySelector('.carousel-counter');
+      const currentSpan = counterEl?.querySelector('span:first-child');
+      const totalSpan = counterEl?.querySelector('span:last-child');
+      if (!img || !prevBtn || !nextBtn) return;
+
+      const total = totalSpan ? parseInt(totalSpan.textContent, 10) : 1;
+      const src = img.getAttribute('src');
+      const match = src.match(/^(.*\D)(\d+)(\.[^.]+)$/);
+      if (!match) return;
+
+      const [, prefix, , ext] = match;
+      let current = 0;
+
+      const update = () => {
+        img.setAttribute('src', `${prefix}${current + 1}${ext}`);
+        if (currentSpan) currentSpan.textContent = String(current + 1);
+      };
+
+      const onPrev = e => { e.stopPropagation(); current = (current - 1 + total) % total; update(); };
+      const onNext = e => { e.stopPropagation(); current = (current + 1) % total; update(); };
+
+      prevBtn.addEventListener('click', onPrev);
+      nextBtn.addEventListener('click', onNext);
+      carouselCleanups.push(() => {
+        prevBtn.removeEventListener('click', onPrev);
+        nextBtn.removeEventListener('click', onNext);
+      });
+    });
+
     return () => {
       scroll.removeEventListener('scroll', onScroll);
       content.removeEventListener('click', handleContentClick);
+      carouselCleanups.forEach(fn => fn());
     };
   }, [projectKey]);
 
@@ -106,7 +144,7 @@ export default function ProjectDetail({ projectKey, onBack }) {
   return (
     <div id="project-detail" style={{ display: 'flex' }}>
       <div className="detail-topbar">
-        <button className="detail-back-btn" onClick={onBack}>&#x2190; BACK</button>
+        <button className="detail-back-btn" onClick={() => playGlitchTransition(onBack, () => {})}>&#x2190; BACK</button>
         <nav className="detail-tabs" id="detail-tabs" ref={tabsRef} />
       </div>
       <div className="detail-scroll" id="detail-scroll" ref={scrollRef}>

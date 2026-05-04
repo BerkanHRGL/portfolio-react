@@ -913,5 +913,108 @@ export const projectData = {
     </div>
   </div>
   `
-}
+},
+
+  overruled: {
+    type: "Android App",
+    client: "Personal",
+    role: "Designer & Developer",
+    content: `
+      <h2>PROJECT OVERVIEW</h2>
+      <p>Overruled is an Android app I built to tackle procrastination in a way that actually feels engaging. Instead of another to-do list, users step into a virtual courtroom where they plead their case to an AI judge character — who then delivers tailored advice spoken aloud through voice synthesis. The whole experience is built around the idea that accountability is more powerful when it has a personality.</p>
+
+      <div class="detail-pull-quote">
+        <p>"Your procrastination is on trial. Plead your case, face your judge, and walk out with a plan — not an excuse."</p>
+      </div>
+
+      <div class="project-info-row">
+        <div class="tools-section">
+          <div class="detail-section-label">TOOLS USED</div>
+          <div class="detail-tags">
+            <span class="detail-tag">Kotlin</span>
+            <span class="detail-tag">Android SDK</span>
+            <span class="detail-tag">Jetpack Compose</span>
+            <span class="detail-tag">Material Design 3</span>
+            <span class="detail-tag">Gemini API</span>
+            <span class="detail-tag">ElevenLabs API</span>
+            <span class="detail-tag">OkHttp 5</span>
+            <span class="detail-tag">Kotlin Coroutines</span>
+            <span class="detail-tag">Lottie</span>
+            <span class="detail-tag">Android Studio</span>
+          </div>
+        </div>
+
+        <div class="date-section">
+          <h3>DATE</h3>
+          <p>2025</p>
+        </div>
+      </div>
+
+      <div class="research-section">
+        <h2>USER FLOW</h2>
+        <p>The app is designed as a linear narrative experience. Each screen leads naturally into the next, building tension towards the courtroom moment.</p>
+
+        <div class="detail-stat-row">
+          <div><div class="detail-stat-number">4</div><div class="detail-stat-label">Core screens</div></div>
+          <div><div class="detail-stat-number">3</div><div class="detail-stat-label">Judge characters</div></div>
+          <div><div class="detail-stat-number">3</div><div class="detail-stat-label">Quiz questions</div></div>
+        </div>
+
+        <h3>STEP 1 — SPLASH & WELCOME</h3>
+        <p>The app opens with a splash screen that transitions into the welcome screen, branded with the line "Where Your Procrastination Stops." The tone is set immediately — formal, high-stakes, and a little dramatic.</p>
+
+        <h3>STEP 2 — PERSONALITY QUIZ</h3>
+        <p>Users answer 3 emoji-based questions that assess their procrastination style. The questions are conversational and quick, designed to feel more like a personality test than a questionnaire. The answers feed directly into which judge character is recommended.</p>
+
+        <h3>STEP 3 — CHARACTER SELECTION</h3>
+        <p>Based on quiz results, one of three judge characters is recommended — but users can choose any of them. Each judge has a distinct personality, visual portrait, and coaching style:</p>
+        <ul>
+          <li><strong>Marcus Cole "The Veteran"</strong> — direct and commanding. Best for overwhelmed users who need clear orders, not options.</li>
+          <li><strong>Elena Voss "The Overachiever"</strong> — balanced and structured. Best for users who feel lost and need supportive guidance.</li>
+          <li><strong>James Reed "The Reluctant One"</strong> — blunt accountability. Best for users who need someone to call them out.</li>
+        </ul>
+
+        <h3>STEP 4 — THE COURTROOM</h3>
+        <p>The main experience. The user types their "defense" — explaining why they've been procrastinating. The Gemini API generates a response in-character as the chosen judge, and ElevenLabs converts that response to voiced audio that plays back through the device. The judge's portrait and the courtroom background are visible throughout, reinforcing the setting.</p>
+      </div>
+
+      <div class="design-process-section">
+        <h2>DESIGN</h2>
+        <p>The visual design leans into a formal courtroom aesthetic. Everything feels deliberate and serious — which creates a fun contrast with the absurdity of pleading your case to an AI judge about why you haven't done your laundry.</p>
+
+        <h3>COLOR & TYPOGRAPHY</h3>
+        <div class="detail-stat-row">
+          <div><div class="detail-stat-number" style="font-size:32px;color:#0D1928;">■</div><div class="detail-stat-label">Dark Navy #0D1928</div></div>
+          <div><div class="detail-stat-number" style="font-size:32px;color:#C9A84C;">■</div><div class="detail-stat-label">Gold #C9A84C</div></div>
+          <div><div class="detail-stat-number" style="font-size:32px;color:#8B0000;">■</div><div class="detail-stat-label">Deep Red #8B0000</div></div>
+        </div>
+        <p>Serif typography is used throughout to reinforce the courtroom setting. Character portraits are displayed against semi-transparent overlays on background scenes, giving each judge a distinct visual presence without requiring heavy assets.</p>
+
+        <h3>CHARACTER PORTRAITS</h3>
+        <p>Each of the three judges has a unique portrait, background scene, and voice assigned through ElevenLabs. The portraits were designed to communicate personality at a glance — Marcus is imposing, Elena is composed, James looks like he'd rather be anywhere else.</p>
+      </div>
+
+      <div class="mockups-section">
+        <h2>ARCHITECTURE & DEVELOPMENT</h2>
+        <p>Overruled is built in Kotlin with a fully declarative UI using Jetpack Compose and Material Design 3. The entire app lives in a single-file Compose architecture (MainActivity.kt), with navigation handled through composable screen states.</p>
+
+        <h3>AI INTEGRATION</h3>
+        <p>The Google Gemini API handles all judge dialogue generation. Each request includes the selected judge's personality as system context, so the same user defense gets a very different response depending on which judge they picked. Requests are fired asynchronously using Kotlin Coroutines to keep the UI responsive.</p>
+
+        <h3>VOICE SYNTHESIS</h3>
+        <p>ElevenLabs converts the Gemini response to an MP3 audio file in real time. The audio bytes are cached to the device's cache directory so replaying a response doesn't require a second API call. Playback is handled through Android's MediaPlayer API with a simple bytes → cache → play pipeline.</p>
+
+        <h3>STATE MANAGEMENT</h3>
+        <p>UI state is managed with Compose's mutableStateOf and LaunchedEffect. Quiz answers, the selected judge, and the current courtroom conversation are all tracked in state at the top level and passed down to composables as needed. API keys are injected at compile time via BuildConfig from a local.properties file — no secrets in source control.</p>
+
+        <h3>VERSION CONTROL</h3>
+        <div class="version-control-container">
+          <div class="version-control-text">
+            <p>The project is tracked on GitHub. Each feature — quiz logic, judge selection, Gemini integration, ElevenLabs pipeline — was developed and committed incrementally.</p>
+            <button class="github-repo-overruled-button">VIEW GITHUB REPOSITORY</button>
+          </div>
+        </div>
+      </div>
+    `
+  }
 };

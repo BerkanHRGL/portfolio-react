@@ -112,7 +112,7 @@ export default function Desktop() {
       )}
 
       {/* Full-screen overlays */}
-      {showShowcase && !detailKey && (
+      {showShowcase && (
         <ProjectsShowcase
           onClose={() => setShowShowcase(false)}
           onViewProject={key => setDetailKey(key)}

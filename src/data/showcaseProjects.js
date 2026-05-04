@@ -1,7 +1,7 @@
 export const showcaseProjects = [
   {
     key: 'branding',
-    num: '01 / 05',
+    num: '01 / 06',
     title: 'BORIS SCHMIDT',
     thumbnail: 'imgs/boris-thumbnail.png',
     type: 'BRANDING',
@@ -11,7 +11,7 @@ export const showcaseProjects = [
   },
   {
     key: 'ux',
-    num: '02 / 05',
+    num: '02 / 06',
     title: 'CARDAN UX',
     thumbnail: 'imgs/cardan-logo.png',
     type: 'UX DESIGN',
@@ -21,7 +21,7 @@ export const showcaseProjects = [
   },
   {
     key: 'development',
-    num: '03 / 05',
+    num: '03 / 06',
     title: 'CARDAN DEV',
     thumbnail: 'imgs/cardan-logo.png',
     type: 'FRONT-END DEV',
@@ -31,7 +31,7 @@ export const showcaseProjects = [
   },
   {
     key: 'portfolio',
-    num: '04 / 05',
+    num: '04 / 06',
     title: 'PORTFOLIO',
     thumbnail: 'imgs/portfolio-thumbnail.png',
     type: 'PORTFOLIO',
@@ -41,12 +41,23 @@ export const showcaseProjects = [
   },
   {
     key: 'projectx',
-    num: '05 / 05',
+    num: '05 / 06',
     title: 'PETCHI',
     thumbnail: 'imgs/petchi-thumbnail.png',
     type: 'PERSONAL PROJECT',
     client: 'PERSONAL',
     year: '2025',
     desc: "Goal-tracking web app where your virtual pet's mood directly reflects how well you're completing your daily tasks.",
+  },
+  {
+    key: 'overruled',
+    num: '06 / 06',
+    title: 'OVERRULED',
+    thumbnail: 'imgs/overruled-thumbnail.png',
+    type: 'ANDROID APP',
+    client: 'PERSONAL',
+    year: '2025',
+    desc: 'Gamified Android app that fights procrastination through an AI courtroom experience — Kotlin, Jetpack Compose, Gemini AI, and ElevenLabs voice synthesis.',
+    comingSoon: true,
   },
 ];
