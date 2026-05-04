@@ -1246,6 +1246,31 @@
   color: #000;
 }
 
+/* Dot pagination */
+.showcase-dots {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.showcase-dot {
+  width: 6px;
+  height: 6px;
+  background: #444;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.showcase-dot.active {
+  background: #849E6B;
+  transform: scale(1.5);
+}
+
 /* Medium / small-laptop showcase (769px–1280px) */
 @media (min-width: 769px) and (max-width: 1280px) {
   .showcase-left {
@@ -1315,6 +1340,10 @@
   .showcase-back-btn {
     top: 12px;
     right: 12px;
+  }
+
+  .showcase-dots {
+    display: none;
   }
 }
 

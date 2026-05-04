@@ -5,13 +5,13 @@ import { playGlitchTransition } from '../../utils/glitchTransition';
 export default function ProjectsShowcase({ onClose, onViewProject }) {
   const [previewSrc, setPreviewSrc] = useState(showcaseProjects[0].thumbnail);
   const [fading, setFading] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
   const rightRef = useRef(null);
 
   useEffect(() => {
     const right = rightRef.current;
     if (!right) return;
 
-    // Mark first card in-view immediately
     right.querySelector('.showcase-card')?.classList.add('in-view');
 
     const observer = new IntersectionObserver(entries => {
@@ -19,6 +19,8 @@ export default function ProjectsShowcase({ onClose, onViewProject }) {
         if (entry.isIntersecting) {
           entry.target.classList.add('in-view');
           const thumb = entry.target.getAttribute('data-thumb');
+          const idx = Number(entry.target.getAttribute('data-idx'));
+          setActiveIndex(idx);
           setFading(true);
           setTimeout(() => {
             setPreviewSrc(thumb);
@@ -29,6 +31,7 @@ export default function ProjectsShowcase({ onClose, onViewProject }) {
     }, { root: right, threshold: 0.45 });
 
     right.querySelectorAll('.showcase-card').forEach(c => observer.observe(c));
+
     return () => observer.disconnect();
   }, []);
 
@@ -68,9 +71,15 @@ export default function ProjectsShowcase({ onClose, onViewProject }) {
         </div>
       </div>
 
+      <div className="showcase-dots">
+        {showcaseProjects.map((p, i) => (
+          <div key={p.key} className={`showcase-dot${i === activeIndex ? ' active' : ''}`} />
+        ))}
+      </div>
+
       <div className="showcase-right" id="showcase-right" ref={rightRef}>
-        {showcaseProjects.map(p => (
-          <div key={p.key} className="showcase-card" data-key={p.key} data-thumb={p.thumbnail}>
+        {showcaseProjects.map((p, i) => (
+          <div key={p.key} className="showcase-card" data-key={p.key} data-thumb={p.thumbnail} data-idx={i}>
             <div className="card-inner">
               <div className="card-titlebar">
                 <span>{p.title}</span>
