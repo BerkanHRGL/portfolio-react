@@ -39,11 +39,11 @@ export default function ContactWindow({ active, onClose, onFocus }) {
       <div className="contact-methods-section">
         <h2 className="contact-section-title">HOW TO REACH ME?</h2>
         {[
-          { title: 'EMAIL', desc: 'BEST WAY FOR BUSINESS INQUIRIES', action: 'berkanhergul@hotmail.com' },
-          { title: 'LINKEDIN', desc: 'FOR PROFESSIONAL NETWORKING', action: 'https://www.linkedin.com/in/berkan-hergul-9a54481b8/' },
-          { title: 'GITHUB', desc: 'CHECK OUT MY CODE AND PROJECTS', action: 'https://github.com/BerkanHRGL' },
+          { title: 'EMAIL', desc: 'BEST WAY FOR BUSINESS INQUIRIES', action: 'berkanhergul@hotmail.com', href: 'mailto:berkanhergul@hotmail.com' },
+          { title: 'LINKEDIN', desc: 'FOR PROFESSIONAL NETWORKING', action: 'linkedin.com/in/berkanhergul', href: 'https://www.linkedin.com/in/berkanhergul/' },
+          { title: 'GITHUB', desc: 'CHECK OUT MY CODE AND PROJECTS', action: 'github.com/BerkanHRGL', href: 'https://github.com/BerkanHRGL' },
         ].map(m => (
-          <div key={m.title} className="contact-method">
+          <div key={m.title} className="contact-method contact-method-link" onClick={() => window.open(m.href, '_blank')}>
             <div className="method-info">
               <div className="method-title">{m.title}</div>
               <div className="method-description">{m.desc}</div>

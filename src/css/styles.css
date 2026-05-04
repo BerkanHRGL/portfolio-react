@@ -817,6 +817,10 @@ body, html {
   transition: all 0.2s ease;
 }
 
+.contact-method-link {
+  cursor: pointer;
+}
+
 .contact-method:hover {
   border-color: #00ff00;
   background: rgba(0, 255, 0, 0.05);
