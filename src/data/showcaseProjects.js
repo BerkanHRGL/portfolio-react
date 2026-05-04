@@ -37,7 +37,7 @@ export const showcaseProjects = [
     type: 'PORTFOLIO',
     client: 'PERSONAL',
     year: '2025',
-    desc: 'This retro OS-inspired portfolio — designed in Figma, coded from scratch with vanilla JS, CSS animations, and a custom window manager.',
+    desc: 'This retro OS-inspired portfolio — designed in Figma, built with React and Vite, CSS animations, and a custom window manager.',
   },
   {
     key: 'projectx',
