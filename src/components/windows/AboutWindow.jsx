@@ -11,10 +11,9 @@ export default function AboutWindow({ active, onClose, onFocus, onMoreAbout }) {
       footer={<div className="about-button" onClick={onMoreAbout}>MORE ABOUT ME</div>}
     >
       <p>
-        HEY, I&apos;M BERKAN! I&apos;M A MEDIA DESIGN STUDENT FROM THE NETHERLANDS AND I REALLY
-        ENJOY MAKING CREATIVE PROJECTS THAT ACTUALLY MEAN SOMETHING. FOR ME IT&apos;S ALL ABOUT
-        MAKING SURE SOMETHING DOESN&apos;T JUST LOOK NICE, BUT ALSO WORKS WELL FOR THE PEOPLE
-        WHO USE IT.
+        HEY, I&apos;M BERKAN — MEDIA DESIGN STUDENT FROM THE NETHERLANDS. WHEN I&apos;M NOT
+        PUSHING PIXELS I&apos;M PROBABLY PUSHING WEIGHTS. I BUILD STUFF THAT FEELS AS GOOD AS
+        IT LOOKS — CLEAN DESIGN, SOLID FUNCTION, NO FLUFF.
       </p>
     </Window>
   );
