@@ -1,15 +1,61 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { projectData } from '../../data/projectData';
 import { showcaseProjects } from '../../data/showcaseProjects';
 import { playGlitchTransition } from '../../utils/glitchTransition';
+import { riseIn } from '../../motion/reveal';
+import { batchReveal, parallaxImage, ScrollTrigger } from '../../motion/scroll';
+import { magnetize } from '../../motion/magnetic';
+import { attachLenis } from '../../motion/lenis';
+import { prefersReducedMotion, isTouchDevice } from '../../motion/env';
 
 export default function ProjectDetail({ projectKey, onBack }) {
   const scrollRef = useRef(null);
+  const scrollInnerRef = useRef(null);
   const contentRef = useRef(null);
   const tabsRef = useRef(null);
 
   const project = projectData[projectKey];
   const meta = showcaseProjects.find(p => p.key === projectKey) || {};
+
+  // Hero entrance — starts as the glitch transition clears.
+  useLayoutEffect(() => {
+    const scroll = scrollRef.current;
+    if (!scroll || prefersReducedMotion()) return;
+    const hero = scroll.querySelectorAll(
+      '.detail-category, .detail-title, .detail-desc, .detail-meta .meta-item'
+    );
+    riseIn(hero, { delay: 0.3, stagger: 0.09, duration: 0.85, y: 28 });
+
+    // Long-form content streams in as you scroll the detail column.
+    const batches = batchReveal(
+      scroll.querySelectorAll('.detail-thumbnail-wrap, .detail-content > *'),
+      { scroller: scroll, start: 'top 86%' }
+    );
+
+    // Gentle parallax on the hero thumbnail — desktop only (expensive on
+    // touch). Content images are left alone to avoid clipping carousel /
+    // accordion controls.
+    const parallaxTriggers = [];
+    if (!isTouchDevice()) {
+      const thumb = scroll.querySelector('#detail-thumb');
+      if (thumb) {
+        const t = parallaxImage(thumb, { scroller: scroll, range: 9, scale: 1.16 });
+        if (t) parallaxTriggers.push(t);
+      }
+    }
+
+    ScrollTrigger.refresh();
+    const cleanupMagnetic = magnetize(
+      document.querySelector('.detail-topbar'),
+      '.detail-back-btn',
+      { strength: 0.3, max: 12 }
+    );
+    return () => {
+      batches.forEach(t => t.kill());
+      parallaxTriggers.forEach(t => t && t.kill());
+      cleanupMagnetic();
+    };
+  }, [projectKey]);
 
   useEffect(() => {
     const scroll = scrollRef.current;
@@ -19,6 +65,13 @@ export default function ProjectDetail({ projectKey, onBack }) {
 
     scroll.scrollTop = 0;
     tabsEl.innerHTML = '';
+
+    // Lenis smooth scrolling on the detail reading column (desktop / motion-ok).
+    let lenis = null;
+    let lenisCleanup = () => {};
+    if (!prefersReducedMotion() && scrollInnerRef.current) {
+      ({ lenis, cleanup: lenisCleanup } = attachLenis(scroll, scrollInnerRef.current));
+    }
 
     const topbarH = document.querySelector('.detail-topbar')?.offsetHeight || 48;
     const tabMap = new Map();
@@ -34,7 +87,9 @@ export default function ProjectDetail({ projectKey, onBack }) {
         tabsEl.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         const target = document.getElementById(id);
-        if (target) scroll.scrollTo({ top: target.offsetTop - topbarH - 16, behavior: 'smooth' });
+        if (!target) return;
+        if (lenis) lenis.scrollTo(target, { offset: -(topbarH + 16) });
+        else scroll.scrollTo({ top: target.offsetTop - topbarH - 16, behavior: 'smooth' });
       });
       tabsEl.appendChild(tab);
       tabMap.set(id, tab);
@@ -136,6 +191,7 @@ export default function ProjectDetail({ projectKey, onBack }) {
       scroll.removeEventListener('scroll', onScroll);
       content.removeEventListener('click', handleContentClick);
       carouselCleanups.forEach(fn => fn());
+      lenisCleanup();
     };
   }, [projectKey]);
 
@@ -148,6 +204,7 @@ export default function ProjectDetail({ projectKey, onBack }) {
         <nav className="detail-tabs" id="detail-tabs" ref={tabsRef} />
       </div>
       <div className="detail-scroll" id="detail-scroll" ref={scrollRef}>
+        <div className="detail-scroll-inner" ref={scrollInnerRef}>
         <div className="detail-hero">
           <div className="detail-hero-left">
             <div className="detail-category">{project.type}</div>
@@ -169,6 +226,7 @@ export default function ProjectDetail({ projectKey, onBack }) {
           className="detail-content"
           dangerouslySetInnerHTML={{ __html: project.content }}
         />
+        </div>
       </div>
     </div>
   );

@@ -1,9 +1,13 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useLayoutEffect, useEffect, useRef } from 'react';
+import { playCrtIntro } from '../motion/intro';
+import { magnetize } from '../motion/magnetic';
+import { prefersReducedMotion } from '../motion/env';
 import Navbar from './Navbar';
 import DateTime from './ui/DateTime';
 import CdPlayer from './ui/CdPlayer';
 import MapleLeaf from './ui/MapleLeaf';
 import ImagePopup from './ui/ImagePopup';
+import CustomCursor from './ui/CustomCursor';
 import AboutWindow from './windows/AboutWindow';
 import FullAboutWindow from './windows/FullAboutWindow';
 import ContactWindow from './windows/ContactWindow';
@@ -12,14 +16,45 @@ import LearningOutcomesWindow from './windows/LearningOutcomesWindow';
 import ProjectsShowcase from './showcase/ProjectsShowcase';
 import ProjectDetail from './showcase/ProjectDetail';
 
-const WINDOWS = ['about', 'full-about', 'contact', 'projects', 'learning-outcomes'];
-
 export default function Desktop() {
   const [openWindows, setOpenWindows] = useState(['about']);
   const [activeWindow, setActiveWindow] = useState('about');
   const [showShowcase, setShowShowcase] = useState(false);
   const [detailKey, setDetailKey] = useState(null);
   const [imagePopupSrc, setImagePopupSrc] = useState(null);
+  const rootRef = useRef(null);
+
+  // Signature moment: CRT power-on into the desktop. Plays on each load,
+  // user-skippable, instant-static under reduced motion.
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    if (prefersReducedMotion()) return;
+
+    const tl = playCrtIntro({ root });
+
+    // Attach skip listeners on the *next* frame so the click / Enter that
+    // brought us into the desktop can't immediately fast-forward the intro.
+    let skip;
+    const raf = requestAnimationFrame(() => {
+      skip = () => tl.progress(1);
+      window.addEventListener('keydown', skip);
+      window.addEventListener('pointerdown', skip);
+    });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      if (skip) {
+        window.removeEventListener('keydown', skip);
+        window.removeEventListener('pointerdown', skip);
+      }
+      tl.kill();
+      document.querySelectorAll('.crt-overlay, .crt-backdrop').forEach(n => n.remove());
+    };
+  }, []);
+
+  // Magnetic pull on the bottom navbar icons.
+  useEffect(() => magnetize(rootRef.current, '.navbar-icon', { strength: 0.25, max: 10 }), []);
 
   const openWindow = useCallback(id => {
     setOpenWindows(prev => prev.includes(id) ? prev : [...prev, id]);
@@ -58,13 +93,13 @@ export default function Desktop() {
   const isActive = id => activeWindow === id;
 
   return (
-    <div id="main-content" style={{ display: 'block' }} onClick={handleImageClick}>
+    <div id="main-content" ref={rootRef} style={{ display: 'block' }} onClick={handleImageClick}>
       <div className="header-title">
-        <div className="student-title">STUDENT MEDIA DESIGN</div>
+        <div className="student-title" data-intro>STUDENT MEDIA DESIGN</div>
       </div>
       <div className="name-container">
-        <img src="imgs/logo.png" alt="Berkan" className="name-logo" />
-        <div className="subtitle">Based in The Netherlands</div>
+        <img src="imgs/logo.png" alt="Berkan" className="name-logo" data-intro />
+        <div className="subtitle" data-intro>Based in The Netherlands</div>
       </div>
 
       {!showShowcase && !detailKey && <DateTime />}
@@ -127,6 +162,8 @@ export default function Desktop() {
 
       {/* Image popup */}
       <ImagePopup src={imagePopupSrc} onClose={() => setImagePopupSrc(null)} />
+
+      <CustomCursor />
     </div>
   );
 }

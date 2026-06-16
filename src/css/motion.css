@@ -1,0 +1,138 @@
+/* ============================================================
+   Motion layer styles. Additive only — no existing rules touched.
+   ============================================================ */
+
+/* --- CRT power-on signature moment --- */
+.crt-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  background: #000;
+  will-change: opacity;
+}
+
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  pointer-events: none;
+  background: #f6f6f6;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  box-shadow: 0 0 60px 8px rgba(255, 255, 255, 0.55);
+}
+
+/* Scanline texture on the bright sweep for the retro CRT read. */
+.crt-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.18) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+/* --- Line-mask reveal ("text rising out of an invisible box") --- */
+.reveal-line {
+  display: block;
+  overflow: hidden;
+}
+.reveal-line > span {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* --- Custom cursor (desktop only) --- */
+body.cursor-none,
+body.cursor-none * {
+  cursor: none !important;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100001;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  /* gsap drives x/y; center the element on the pointer. */
+  margin-left: -3px;
+  margin-top: -3px;
+  mix-blend-mode: difference;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: #fff;
+}
+
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin-left: -17px;
+  margin-top: -17px;
+  border: 1.5px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Retro pixel block — no radius. Only transform/opacity animate. */
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.28s ease;
+  transform: scale(1);
+}
+
+.cursor-ring.is-hover {
+  transform: scale(1.55);
+}
+
+.cursor-ring.has-label {
+  transform: scale(2.5);
+  background: #fff;
+}
+
+.cursor-label {
+  font-family: 'PixelOperatorBold', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #000;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.cursor-ring.has-label .cursor-label {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Parallax containers clip the slightly-oversized, drifting image. */
+.parallax-wrap {
+  overflow: hidden;
+}
+
+/* When the GSAP scroll-reveal is active, the card frame is shown at once and
+   GSAP staggers the inner content instead of the CSS block fade. */
+.js-reveal .card-inner {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* --- Reduced motion: gut the heavy stuff, show everything static --- */
+@media (prefers-reduced-motion: reduce) {
+  .crt-overlay,
+  .crt-backdrop {
+    display: none !important;
+  }
+  /* No translate-based reveals; keep at most a soft opacity settle. */
+  .card-inner {
+    transform: none !important;
+    transition: opacity 0.3s ease !important;
+  }
+}
