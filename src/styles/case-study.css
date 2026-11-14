@@ -315,3 +315,90 @@
   .cs .detail-side-layout { grid-template-columns: 1fr; }
   .cs .detail-stat-row { grid-template-columns: 1fr 1fr; }
 }
+
+/* ---------- Sans-serif rework: overrides for the text-file styling above ---------- */
+.project { padding-top: clamp(24px, 4vh, 40px); }
+.project-head h1 { font-size: clamp(40px, 7vw, 104px); max-width: 14ch; margin-bottom: 20px; }
+.project-meta { border-top: 1px solid var(--ink); gap: 12px 64px; }
+.project-meta dt,
+.toc,
+.cs .detail-section-label,
+.cs .date-section h3,
+.cs .iteration-caption,
+.cs .detail-stat-label,
+.cs .carousel-counter {
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.project-meta dt::before,
+.cs h2::before,
+.cs h3::before,
+.cs .detail-section-label::before,
+.cs .date-section h3::before,
+.cs .detail-tag::after,
+.toc-title::after { content: none; }
+.project-meta dd { font-weight: 600; }
+
+.toc a { text-transform: none; font-family: var(--sans); font-size: 14.5px; }
+.toc a.active::before { content: '→ '; }
+
+.cs { max-width: 68ch; }
+.cs h2 {
+  font-weight: 600;
+  font-size: clamp(26px, 3.4vw, 44px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  border-top: 1px solid var(--ink);
+}
+.cs h3 { font-weight: 600; font-size: 20px; letter-spacing: -0.015em; }
+.cs h4 { font-size: 17px; font-weight: 600; }
+.cs p, .cs li { color: color-mix(in srgb, var(--ink) 82%, var(--bg)); }
+.cs strong { font-weight: 600; color: var(--ink); }
+.cs li::before { content: '–'; }
+
+.cs .project-info-row { border: 1px solid var(--ink); background: var(--surface); }
+.cs .detail-tags { gap: 6px; }
+.cs .detail-tag {
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 14px;
+}
+.cs .detail-tag::before { content: none; }
+
+.cs .detail-pull-quote { padding-left: 20px; border-left: 3px solid var(--accent); }
+.cs .detail-pull-quote::before { content: none; }
+.cs .detail-pull-quote p {
+  font-size: clamp(20px, 2.4vw, 28px);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.cs .detail-stat-row,
+.cs .detail-stat-col { border-block: 1px solid var(--line); }
+.cs .detail-stat-number { font-weight: 600; }
+
+.cs button:not(.carousel-arrow) { margin: 8px 0 4px; padding: 10px 18px; font-size: 14.5px; }
+.cs button:not(.carousel-arrow)::before { content: none; }
+.cs button:not(.carousel-arrow)::after { content: '→'; color: inherit; }
+.cs button.accordion-toggle::after { content: '+'; }
+.cs button.accordion-toggle.open::after { content: '–'; }
+.cs .accordion-content { border: 1px solid var(--line); font-size: 15.5px; }
+.cs .carousel-arrow { border-radius: 50%; }
+
+.next-project { background: var(--bg); border-width: 1px 0; padding-inline: 0; }
+.next-title {
+  font-weight: 600;
+  font-size: clamp(34px, 6vw, 88px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.next-project:hover .next-title { text-decoration: none; color: var(--accent); }
+
+@media (max-width: 900px) {
+  .toc { border-bottom: 1px solid var(--line); }
+  .toc a.active::before { content: none; }
+  .toc a.active { text-decoration: underline; text-underline-offset: 5px; }
+}

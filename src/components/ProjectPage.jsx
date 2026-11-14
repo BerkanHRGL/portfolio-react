@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import AsciiImage from './AsciiImage';
 import Frame from './Frame';
-import Rule from './Rule';
 import { projectData } from '../data/projectData';
 import { showcaseProjects } from '../data/showcaseProjects';
 
@@ -175,10 +174,13 @@ export default function ProjectPage({ projectKey, onImage }) {
 
   return (
     <article className="project container">
-      <a className="back-link" href="#work">&lt;- All work</a>
+      <a className="back-link label" href="#work">← All work</a>
 
       <header className="project-head">
-        <p className="section-tag"><span className="section-number">{String(index + 1).padStart(2, '0')}</span><span>{project.type.toLowerCase()}</span><Rule /></p>
+        <p className="label section-label">
+          <span className="section-number">{String(index + 1).padStart(2, '0')}</span>
+          <span>{project.type}</span>
+        </p>
         <h1>{meta.title}</h1>
         <p className="lead">{meta.desc}</p>
         <dl className="project-meta">
@@ -232,7 +234,7 @@ export default function ProjectPage({ projectKey, onImage }) {
       {next && (
         <a className="next-project" href={`#/work/${next.key}`}>
           <span className="eyebrow">Next project</span>
-          <span className="next-title">{next.title} <span aria-hidden="true">-&gt;</span></span>
+          <span className="next-title">{next.title} <span aria-hidden="true">→</span></span>
         </a>
       )}
     </article>

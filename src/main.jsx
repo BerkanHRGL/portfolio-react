@@ -1,7 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import './styles/site.css'
 import './styles/case-study.css'
-import './styles/motion.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(<App />)

@@ -8,7 +8,8 @@ import Footer from './components/Footer';
 import ProjectPage from './components/ProjectPage';
 import Lightbox from './components/Lightbox';
 import Marquee from './components/Marquee';
-import CursorLabel from './components/CursorLabel';
+import AsciiField from './components/AsciiField';
+import Loader from './components/Loader';
 import { reducedMotion, scramble } from './utils/motion';
 import { projectData } from './data/projectData';
 import { showcaseProjects } from './data/showcaseProjects';
@@ -72,6 +73,7 @@ export default function App() {
 
   // Scroll handling when switching between home and a case study.
   useEffect(() => {
+    document.documentElement.dataset.page = route.page;
     if (route.page === 'project') {
       window.scrollTo({ top: 0, behavior: 'instant' });
       return;
@@ -105,6 +107,8 @@ export default function App() {
 
   return (
     <>
+      <AsciiField />
+      <Loader />
       <a className="skip-link" href="#main">Skip to content</a>
       <Header />
       <main id="main">
@@ -122,7 +126,6 @@ export default function App() {
       </main>
       <Footer />
       <Lightbox image={lightbox} onClose={() => setLightbox(null)} />
-      <CursorLabel />
       {wipe && (
         <div className={`wipe ${wipe.phase}`} aria-hidden="true">
           {Array.from({ length: 6 }, (_, i) => <span key={i} style={{ '--i': i }} />)}

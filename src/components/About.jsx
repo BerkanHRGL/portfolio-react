@@ -1,5 +1,4 @@
-import Frame from './Frame';
-import Rule from './Rule';
+import AsciiImage from './AsciiImage';
 import SectionHead from './SectionHead';
 
 const facts = [
@@ -10,19 +9,19 @@ const facts = [
 ];
 
 const skills = [
-  { group: 'design', items: ['Figma', 'Photoshop', 'Illustrator', 'UI/UX design', 'Prototyping'] },
-  { group: 'development', items: ['HTML', 'CSS', 'JavaScript', 'React', 'Git'] },
-  { group: 'research', items: ['User research', 'Interviews', 'A/B testing', 'Accessibility'] },
+  { group: 'Design', items: ['Figma', 'Photoshop', 'Illustrator', 'UI/UX design', 'Prototyping'] },
+  { group: 'Development', items: ['HTML', 'CSS', 'JavaScript', 'React', 'Git'] },
+  { group: 'Research', items: ['User research', 'Interviews', 'A/B testing', 'Accessibility'] },
 ];
 
 export default function About() {
   return (
     <section className="section container" id="about">
-      <SectionHead number="02" label="about" title="A designer who also builds" />
+      <SectionHead number="02" label="About" title="A designer who also builds" />
 
       <div className="about-grid">
         <div className="about-text" data-reveal>
-          <p>
+          <p className="about-lead">
             Hey, I&apos;m Berkan! I&apos;m a Media Design student from the Netherlands and I love
             making things that not only look good, but actually work well for people too.
           </p>
@@ -38,34 +37,33 @@ export default function About() {
           </p>
         </div>
 
-        <div data-reveal>
-          <Frame title="about.txt">
-            <dl className="leaders">
-              {facts.map(fact => (
-                <div key={fact.label}>
-                  <dt>{fact.label}</dt>
-                  <Rule char="." />
-                  <dd>{fact.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </Frame>
-        </div>
+        <aside className="about-side" data-reveal>
+          <div className="portrait reveal-host" tabIndex={0}>
+            <AsciiImage
+              src="imgs/portrait.png"
+              alt="Portrait of Berkan, drawn in ASCII characters"
+              cols={64}
+              ratio={1}
+              flat
+            />
+          </div>
+          <dl className="facts">
+            {facts.map(fact => (
+              <div key={fact.label}>
+                <dt className="label">{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </aside>
       </div>
 
       <div className="skills" data-reveal>
         {skills.map(skill => (
-          <div key={skill.group} className="tree">
-            <h3>{skill.group}/</h3>
+          <div key={skill.group}>
+            <h3 className="label">{skill.group}</h3>
             <ul>
-              {skill.items.map((item, i) => (
-                <li key={item}>
-                  <span className="branch" aria-hidden="true">
-                    {i === skill.items.length - 1 ? '└── ' : '├── '}
-                  </span>
-                  {item}
-                </li>
-              ))}
+              {skill.items.map(item => <li key={item}>{item}</li>)}
             </ul>
           </div>
         ))}
