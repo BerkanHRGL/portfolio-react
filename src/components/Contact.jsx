@@ -1,3 +1,6 @@
+import Rule from './Rule';
+import SectionHead from './SectionHead';
+
 const EMAIL = 'berkanhergul@hotmail.com';
 
 const links = [
@@ -9,34 +12,30 @@ const links = [
 export default function Contact() {
   return (
     <section className="section container" id="contact">
-      <header className="section-head" data-reveal>
-        <p className="eyebrow">03 · Contact</p>
-        <h2>Let&apos;s make something together</h2>
-        <p className="section-intro">
-          Got an internship, a project or a question about my work? Send me a message.
-          I usually reply within 24 hours.
-        </p>
-      </header>
+      <SectionHead number="03" label="contact" title="Let's make something together">
+        Got an internship, a project or a question about my work? Send me a message.
+        I usually reply within 24 hours.
+      </SectionHead>
 
       <div className="contact-grid" data-reveal>
-        <a className="btn btn-primary btn-large" href={`mailto:${EMAIL}`}>Send an email</a>
-        <ul className="contact-links">
+        <ul className="leaders contact-links">
           {links.map(link => {
             const external = link.href.startsWith('http');
             return (
               <li key={link.label}>
-                <span className="contact-label">{link.label}</span>
+                <span className="leader-label">{link.label}</span>
+                <Rule char="." />
                 <a
                   href={link.href}
                   {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
                 >
                   {link.text}
-                  {external && <span aria-hidden="true"> ↗</span>}
                 </a>
               </li>
             );
           })}
         </ul>
+        <a className="btn btn-primary" href={`mailto:${EMAIL}`}>Send an email</a>
       </div>
     </section>
   );

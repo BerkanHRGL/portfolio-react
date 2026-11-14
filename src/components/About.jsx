@@ -1,23 +1,24 @@
+import Frame from './Frame';
+import Rule from './Rule';
+import SectionHead from './SectionHead';
+
 const facts = [
   { label: 'Based in', value: 'The Netherlands' },
-  { label: 'Studying', value: 'Media Design, Fontys University' },
-  { label: 'Focus', value: 'UX/UI design & front-end' },
+  { label: 'Studying', value: 'Media Design, Fontys' },
+  { label: 'Focus', value: 'UX/UI & front-end' },
   { label: 'Looking for', value: 'Internships & projects' },
 ];
 
 const skills = [
-  { group: 'Design', items: ['Figma', 'Photoshop', 'Illustrator', 'UI/UX design', 'Prototyping'] },
-  { group: 'Development', items: ['HTML', 'CSS', 'JavaScript', 'React', 'Git'] },
-  { group: 'Research', items: ['User research', 'Interviews', 'A/B testing', 'Accessibility'] },
+  { group: 'design', items: ['Figma', 'Photoshop', 'Illustrator', 'UI/UX design', 'Prototyping'] },
+  { group: 'development', items: ['HTML', 'CSS', 'JavaScript', 'React', 'Git'] },
+  { group: 'research', items: ['User research', 'Interviews', 'A/B testing', 'Accessibility'] },
 ];
 
 export default function About() {
   return (
     <section className="section container" id="about">
-      <header className="section-head" data-reveal>
-        <p className="eyebrow">02 · About</p>
-        <h2>A designer who also builds</h2>
-      </header>
+      <SectionHead number="02" label="about" title="A designer who also builds" />
 
       <div className="about-grid">
         <div className="about-text" data-reveal>
@@ -37,22 +38,34 @@ export default function About() {
           </p>
         </div>
 
-        <dl className="facts" data-reveal>
-          {facts.map(fact => (
-            <div key={fact.label}>
-              <dt>{fact.label}</dt>
-              <dd>{fact.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <div data-reveal>
+          <Frame title="about.txt">
+            <dl className="leaders">
+              {facts.map(fact => (
+                <div key={fact.label}>
+                  <dt>{fact.label}</dt>
+                  <Rule char="." />
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </Frame>
+        </div>
       </div>
 
       <div className="skills" data-reveal>
         {skills.map(skill => (
-          <div key={skill.group} className="skill-group">
-            <h3>{skill.group}</h3>
+          <div key={skill.group} className="tree">
+            <h3>{skill.group}/</h3>
             <ul>
-              {skill.items.map(item => <li key={item}>{item}</li>)}
+              {skill.items.map((item, i) => (
+                <li key={item}>
+                  <span className="branch" aria-hidden="true">
+                    {i === skill.items.length - 1 ? '└── ' : '├── '}
+                  </span>
+                  {item}
+                </li>
+              ))}
             </ul>
           </div>
         ))}

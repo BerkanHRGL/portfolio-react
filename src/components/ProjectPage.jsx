@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import WindowFrame from './WindowFrame';
+import AsciiImage from './AsciiImage';
+import Frame from './Frame';
+import Rule from './Rule';
 import { projectData } from '../data/projectData';
 import { showcaseProjects } from '../data/showcaseProjects';
 
@@ -173,10 +175,10 @@ export default function ProjectPage({ projectKey, onImage }) {
 
   return (
     <article className="project container">
-      <a className="back-link" href="#work">← All work</a>
+      <a className="back-link" href="#work">&lt;- All work</a>
 
       <header className="project-head">
-        <p className="eyebrow">{project.type}</p>
+        <p className="section-tag"><span className="section-number">{String(index + 1).padStart(2, '0')}</span><span>{project.type.toLowerCase()}</span><Rule /></p>
         <h1>{meta.title}</h1>
         <p className="lead">{meta.desc}</p>
         <dl className="project-meta">
@@ -187,13 +189,18 @@ export default function ProjectPage({ projectKey, onImage }) {
       </header>
 
       {meta.thumbnail && (
-        <WindowFrame title={`${meta.title} · cover`} className="project-cover">
-          <img
-            className={`cover${meta.fit === 'contain' ? ' cover-contain' : ''}`}
+        <Frame title={`${projectKey}_cover`} className="project-cover">
+          <AsciiImage
             src={meta.thumbnail}
             alt={`${meta.title} cover image`}
+            cols={120}
+            ratio={0.5}
+            fit={meta.fit}
+            flat={meta.fit === 'contain'}
+            auto
+            eager
           />
-        </WindowFrame>
+        </Frame>
       )}
 
       <div className="project-layout">
@@ -225,7 +232,7 @@ export default function ProjectPage({ projectKey, onImage }) {
       {next && (
         <a className="next-project" href={`#/work/${next.key}`}>
           <span className="eyebrow">Next project</span>
-          <span className="next-title">{next.title} <span aria-hidden="true">→</span></span>
+          <span className="next-title">{next.title} <span aria-hidden="true">-&gt;</span></span>
         </a>
       )}
     </article>
