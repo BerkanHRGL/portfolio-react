@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const timeFormat = new Intl.DateTimeFormat('en-GB', {
   hour: '2-digit',
@@ -51,17 +51,39 @@ function ThemeToggle() {
 }
 
 export default function Header() {
+  const headerRef = useRef(null);
+
+  // Drives the reading-progress line under the header.
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      headerRef.current?.style.setProperty('--progress', progress.toFixed(4));
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className="site-header" ref={headerRef}>
       <div className="container header-inner">
         <a className="wordmark" href="#top">
           <span className="wordmark-mark" aria-hidden="true">~/</span>
           berkan<span className="wordmark-rest">-hergul</span>
         </a>
         <nav className="site-nav" aria-label="Main">
-          <a href="#work">work</a>
-          <a href="#about">about</a>
-          <a href="#contact">contact</a>
+          <a href="#work" data-scramble-hover>work</a>
+          <a href="#about" data-scramble-hover>about</a>
+          <a href="#contact" data-scramble-hover>contact</a>
         </nav>
         <div className="header-tools">
           <Clock />

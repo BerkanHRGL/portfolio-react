@@ -8,7 +8,7 @@ export default function SectionHead({ number, label, title, children }) {
         <span>{label}</span>
         <Rule />
       </p>
-      <h2>{title}</h2>
+      <h2 data-scramble>{title}</h2>
       {children && <p className="section-intro">{children}</p>}
     </header>
   );

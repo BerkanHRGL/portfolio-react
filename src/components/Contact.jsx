@@ -1,3 +1,4 @@
+import AsciiWave from './AsciiWave';
 import Rule from './Rule';
 import SectionHead from './SectionHead';
 
@@ -35,8 +36,10 @@ export default function Contact() {
             );
           })}
         </ul>
-        <a className="btn btn-primary" href={`mailto:${EMAIL}`}>Send an email</a>
+        <a className="btn btn-primary" href={`mailto:${EMAIL}`} data-scramble-hover>Send an email</a>
       </div>
+
+      <AsciiWave />
     </section>
   );
 }

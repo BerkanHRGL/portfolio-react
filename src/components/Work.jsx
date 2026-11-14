@@ -18,7 +18,7 @@ function ProjectCard({ project, index }) {
       </Frame>
       <div className="card-text">
         <h3>
-          <span className="card-title">{project.title}</span>
+          <span className="card-title" data-scramble-target>{project.title}</span>
           {!project.comingSoon && <span className="card-arrow" aria-hidden="true">-&gt;</span>}
         </h3>
         <p>{project.desc}</p>
@@ -33,7 +33,13 @@ function ProjectCard({ project, index }) {
     return <div className="card card-soon" data-reveal>{body}</div>;
   }
   return (
-    <a className="card reveal-host" href={`#/work/${project.key}`} data-reveal>
+    <a
+      className="card reveal-host"
+      href={`#/work/${project.key}`}
+      data-reveal
+      data-scramble-hover
+      data-cursor="open case study"
+    >
       {body}
     </a>
   );
