@@ -1,13 +1,16 @@
 /* ---------- Design tokens ---------- */
 :root {
-  --bg: #f4f2ec;
-  --surface: #fbfaf6;
-  --ink: #141413;
-  --muted: #5e5c56;
-  --line: #cfcabd;
-  --accent: #c2410c;
+  /* Calm palette: soft grey-green paper, sage for links and highlights,
+     lavender for things in motion (decoding letters, flying characters, trail) */
+  --bg: #eff0ea;
+  --surface: #f7f8f4;
+  --ink: #1b2320;
+  --muted: #5a635e;
+  --line: #c9cfc9;
+  --accent: #3f6f5b;
+  --accent-2: #6c5fb0;
   --accent-ink: #ffffff;
-  --ok: #2f7d32;
+  --ok: #3d8a5c;
   --field: color-mix(in srgb, var(--ink) 42%, var(--bg));
 
   /* Which ASCII rendering of an image is shown (dark ink vs light characters) */
@@ -23,14 +26,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #0e0f0e;
-    --surface: #181918;
-    --ink: #ecebe5;
-    --muted: #a09e95;
-    --line: #343532;
-    --accent: #ff9a5c;
-    --accent-ink: #0e0f0e;
-    --ok: #7bd67f;
+    --bg: #0f1312;
+    --surface: #171c1a;
+    --ink: #e4eae6;
+    --muted: #98a39d;
+    --line: #2c3430;
+    --accent: #9fd1b8;
+    --accent-2: #b8adf0;
+    --accent-ink: #0f1312;
+    --ok: #8fd6a5;
     --ascii-on-light: none;
     --ascii-on-dark: block;
     color-scheme: dark;
@@ -38,14 +42,15 @@
 }
 
 :root[data-theme='dark'] {
-  --bg: #0e0f0e;
-  --surface: #181918;
-  --ink: #ecebe5;
-  --muted: #a09e95;
-  --line: #343532;
-  --accent: #ff9a5c;
-  --accent-ink: #0e0f0e;
-  --ok: #7bd67f;
+  --bg: #0f1312;
+  --surface: #171c1a;
+  --ink: #e4eae6;
+  --muted: #98a39d;
+  --line: #2c3430;
+  --accent: #9fd1b8;
+  --accent-2: #b8adf0;
+  --accent-ink: #0f1312;
+  --ok: #8fd6a5;
   --ascii-on-light: none;
   --ascii-on-dark: block;
   color-scheme: dark;
@@ -376,7 +381,7 @@ button { font: inherit; color: inherit; }
   position: absolute;
   left: 0;
   top: 0;
-  color: var(--accent);
+  color: var(--accent-2);
   font-family: var(--mono);
   font-weight: 500;
   font-size: 0.8em;
@@ -447,7 +452,7 @@ button { font: inherit; color: inherit; }
 }
 .intro-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
 
-/* Preview card for the orange words */
+/* Preview card for the highlighted words */
 .intro-card {
   position: fixed;
   top: 0;

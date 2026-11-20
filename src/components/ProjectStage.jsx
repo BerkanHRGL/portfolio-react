@@ -99,7 +99,7 @@ export default function ProjectStage({ projects, active }) {
     let sweep = new Float32Array(0);
     let raf = 0, lastDraw = 0, frame = 0;
     let visible = false;
-    let ink = '#000', accent = '#c2410c', dark = false;
+    let ink = '#000', accent = '#6c5fb0', dark = false;
 
     const gridFor = index => {
       if (index < 0) return pattern;
@@ -121,7 +121,7 @@ export default function ProjectStage({ projects, active }) {
       if (frame++ % 30 === 0) {
         const style = getComputedStyle(canvas);
         ink = style.color;
-        accent = style.getPropertyValue('--accent').trim() || accent;
+        accent = style.getPropertyValue('--accent-2').trim() || accent;
         dark = getComputedStyle(document.documentElement).colorScheme.includes('dark');
       }
       const mode = dark ? 'dark' : 'light';

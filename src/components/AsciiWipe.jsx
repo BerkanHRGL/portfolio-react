@@ -32,7 +32,7 @@ export default function AsciiWipe({ phase, duration, label }) {
     stateRef.current = {
       ctx, width, height, cols, rows, sweep,
       ink: style.getPropertyValue('--ink').trim() || '#111',
-      accent: style.getPropertyValue('--accent').trim() || '#c2410c',
+      accent: style.getPropertyValue('--accent-2').trim() || '#6c5fb0',
     };
   }, []);
 

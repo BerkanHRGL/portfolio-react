@@ -20,7 +20,7 @@ export default function CursorTrail() {
     const bits = [];
     let raf = 0;
     let last = null;
-    let accent = '#c2410c';
+    let accent = '#6c5fb0';
     let width = 0, height = 0;
 
     const resize = () => {
@@ -58,7 +58,7 @@ export default function CursorTrail() {
       const point = { x: event.clientX, y: event.clientY };
       if (!last) {
         last = point;
-        accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || accent;
+        accent = getComputedStyle(document.documentElement).getPropertyValue('--accent-2').trim() || accent;
         return;
       }
       const dx = point.x - last.x;

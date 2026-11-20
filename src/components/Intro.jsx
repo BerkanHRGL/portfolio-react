@@ -55,7 +55,7 @@ function Badge({ name, at }) {
 /**
  * The statement after the greeting. The section pins while you scroll, and the
  * sentence types itself in: each character decodes from noise as you go. Small ASCII
- * animations sit between the words, and the orange words open a preview of the
+ * animations sit between the words, and the accent-coloured words open a preview of the
  * project that shows what they mean.
  */
 export default function Intro() {
@@ -141,7 +141,7 @@ export default function Intro() {
     };
   }, []);
 
-  // Hovering an orange word shows a preview card next to the pointer (mouse only).
+  // Hovering a highlighted word shows a preview card next to the pointer (mouse only).
   useEffect(() => {
     const sentence = sentenceRef.current;
     const card = cardRef.current;

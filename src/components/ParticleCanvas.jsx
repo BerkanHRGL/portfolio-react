@@ -57,7 +57,7 @@ export default function ParticleCanvas({
     let nextSwitch = 0;
     let raf = 0, lastDraw = 0, frame = 0, draws = 0;
     let visible = false, seen = false, disposed = false;
-    let ink = '#111', accent = '#c2410c', darkPage = false;
+    let ink = '#111', accent = '#6c5fb0', darkPage = false;
     const pointer = { x: -9999, y: -9999, active: false };
 
     const images = opts.shapes.map(shape => {
@@ -234,7 +234,7 @@ export default function ParticleCanvas({
       if (draws++ % 30 === 0) {
         const style = getComputedStyle(canvas);
         ink = style.color;
-        accent = style.getPropertyValue('--accent').trim() || accent;
+        accent = style.getPropertyValue('--accent-2').trim() || accent;
         darkPage = getComputedStyle(html).colorScheme.includes('dark');
       }
       // Leaving the viewport upwards scatters the shape and fades it out.
