@@ -236,14 +236,41 @@ button { font: inherit; color: inherit; }
 .btn-primary { background: var(--ink); color: var(--bg); }
 .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 
-/* ---------- Hero ---------- */
+/* ---------- Hero: the greeting ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .hero {
-  min-height: 100vh;
-  min-height: 100svh;
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 520px;
+  overflow: hidden;
+}
+.greeting {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: var(--ink);
+}
+.hero-layer {
+  position: relative;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  padding-block: clamp(20px, 3vh, 32px) clamp(84px, 13vh, 120px);
+  padding-block: clamp(20px, 3vh, 32px) clamp(88px, 14vh, 128px);
+  pointer-events: none;
 }
+.hero-layer a { pointer-events: auto; }
 .hero-top {
   display: flex;
   justify-content: space-between;
@@ -252,32 +279,94 @@ button { font: inherit; color: inherit; }
 }
 .clock { font-variant-numeric: tabular-nums; }
 
-.hero-main { margin-block: auto; padding-block: clamp(32px, 6vh, 72px); }
-.hero-eyebrow { margin-bottom: clamp(14px, 2vh, 24px); }
-.hero h1 {
-  font-weight: 600;
-  font-size: clamp(40px, 7.6vw, 118px);
-  line-height: 0.98;
-  letter-spacing: -0.045em;
-  max-width: 14ch;
-  text-wrap: balance;
+/* Sits just under the big word */
+.hero-lang {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
 }
-.hero h1 em { font-style: normal; color: var(--accent); }
+.hero-lang-text { color: var(--ink); }
+.hero-play { color: var(--muted); opacity: 0.8; }
+.hero-play::before { content: '( '; }
+.hero-play::after { content: ' )'; }
+@media (hover: none) { .hero-play { display: none; } }
 
-.hero-foot {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: 20px clamp(24px, 5vw, 72px);
+.hero-bottom {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+.hero-welcome {
+  max-width: 30ch;
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.35;
+}
+.hero-welcome strong { font-weight: 600; }
+.hero-scroll {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.hero-scroll-line {
+  position: relative;
+  width: 1px;
+  height: 48px;
+  overflow: hidden;
+  background: var(--line);
+}
+.hero-scroll-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: translateY(-100%);
+}
+
+/* ---------- Intro statement ---------- */
+.intro {
+  padding-block: clamp(96px, 22vh, 220px) clamp(72px, 14vh, 160px);
+}
+.intro-text {
+  margin-top: 28px;
+  max-width: 24ch;
+  font-weight: 600;
+  font-size: clamp(32px, 5vw, 80px);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+.intro-text span { transition: opacity 0.2s linear; }
+.intro-text .accent { color: var(--accent); }
+.intro-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 40px;
+  margin-top: clamp(40px, 6vw, 72px);
 }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.status { grid-column: 1 / -1; display: flex; align-items: center; gap: 9px; }
+.status { display: flex; align-items: center; gap: 9px; }
 .status-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--ok);
 }
+
+/* The page-wide ASCII background steps aside for the greeting */
+.at-hero .field,
+.js.loaded.at-hero .field { opacity: 0; }
 
 /* ---------- Marquee ---------- */
 .marquee {
@@ -387,6 +476,21 @@ button { font: inherit; color: inherit; }
   overflow: hidden;
 }
 a.stage-screen { cursor: pointer; }
+.stage-view { position: relative; }
+/* The real image waits on top of the ASCII drawing and fades in on hover */
+.stage-real {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity 0.45s ease, transform 0.8s var(--ease);
+}
+.stage-real.contain { object-fit: contain; background: #fff; }
+.stage-screen:hover .stage-real,
+.stage-screen:focus-visible .stage-real { opacity: 1; transform: none; }
 .stage-screen canvas {
   display: block;
   width: 100%;
@@ -635,29 +739,25 @@ a.stage-screen { cursor: pointer; }
   .marquee-track { animation: marquee 36s linear infinite; }
   @keyframes marquee { to { transform: translateX(-50%); } }
 
-  /* Hero intro waits for the loader, which adds .loaded to <html> */
-  .hero h1 .word {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: bottom;
-    padding-bottom: 0.14em;
-    margin-bottom: -0.14em;
-  }
-  .js .hero h1 .word > span { display: inline-block; transform: translateY(120%); }
-  .js.loaded .hero h1 .word > span {
-    animation: rise 0.9s var(--ease) calc(0.1s + var(--i) * 55ms) forwards;
-  }
+  /* Hero furniture fades in once the loader has lifted (.loaded on <html>) */
   .js .hero-top,
-  .js .hero-eyebrow,
-  .js .hero-foot > * { opacity: 0; }
+  .js .hero-lang,
+  .js .hero-bottom > * { opacity: 0; }
   .js.loaded .hero-top,
-  .js.loaded .hero-eyebrow,
-  .js.loaded .hero-foot > * { animation: fade-up 0.7s ease forwards; }
-  .js.loaded .hero-top { animation-delay: 0.05s; }
-  .js.loaded .hero-eyebrow { animation-delay: 0.15s; }
-  .js.loaded .hero-foot > :nth-child(1) { animation-delay: 0.7s; }
-  .js.loaded .hero-foot > :nth-child(2) { animation-delay: 0.8s; }
-  .js.loaded .hero-foot > :nth-child(3) { animation-delay: 0.9s; }
+  .js.loaded .hero-lang,
+  .js.loaded .hero-bottom > * { animation: fade-up 0.8s ease forwards; }
+  .js.loaded .hero-top { animation-delay: 0.1s; }
+  .js.loaded .hero-lang { animation-delay: 1.2s; }
+  .js.loaded .hero-bottom > :nth-child(1) { animation-delay: 1.5s; }
+  .js.loaded .hero-bottom > :nth-child(2) { animation-delay: 1.7s; }
+
+  .hero-lang-text { animation: fade-up 0.5s ease both; }
+  .hero-scroll-line::after { animation: drip 1.8s cubic-bezier(0.7, 0, 0.3, 1) 2s infinite; }
+  @keyframes drip {
+    0% { transform: translateY(-100%); }
+    50% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+  }
 
   .js .pill { transform: translate(-50%, 160%); transition: transform 0.8s var(--ease) 0.5s; }
   .js.loaded .pill { transform: translateX(-50%); }
@@ -718,12 +818,15 @@ a.stage-screen { cursor: pointer; }
 @media (max-width: 900px) {
   :root { --field: color-mix(in srgb, var(--ink) 24%, var(--bg)); }
   .about-grid { grid-template-columns: minmax(0, 1fr); }
-  .hero-foot { grid-template-columns: minmax(0, 1fr); }
+  .hero-lang { top: 64%; }
 }
 
 @media (max-width: 640px) {
   body { font-size: 16px; }
   .hero-top-mid { display: none; }
+  .hero-bottom { flex-direction: column; align-items: flex-start; }
+  .hero-scroll { flex-direction: row; }
+  .hero-scroll-line { width: 32px; height: 1px; }
   .skills { grid-template-columns: minmax(0, 1fr); }
   .cards { grid-template-columns: minmax(0, 1fr); }
   .pill { font-size: 12px; }

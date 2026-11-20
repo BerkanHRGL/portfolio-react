@@ -1,45 +1,58 @@
+import { useEffect, useRef, useState } from 'react';
 import Clock from './Clock';
-
-// Each word sits in a clipped box so it can slide up into place on load.
-function words(text, offset = 0) {
-  return text.split(' ').flatMap((word, i) => [
-    <span className="word" key={word + i}><span style={{ '--i': offset + i }}>{word}</span></span>,
-    ' ',
-  ]);
-}
+import Greeting from './Greeting';
+import { GREETINGS } from '../data/greetings';
 
 export default function Hero() {
+  const [index, setIndex] = useState(0);
+  const ref = useRef(null);
+  const greeting = GREETINGS[index];
+
+  // The page-wide ASCII background stays hidden while the greeting has the stage.
+  useEffect(() => {
+    const html = document.documentElement;
+    // Set straight away too: the observer only reports after the first frame.
+    html.classList.toggle('at-hero', ref.current.getBoundingClientRect().bottom > window.innerHeight * 0.35);
+    const io = new IntersectionObserver(
+      ([entry]) => html.classList.toggle('at-hero', entry.isIntersecting),
+      { threshold: 0.35 }
+    );
+    io.observe(ref.current);
+    return () => {
+      io.disconnect();
+      html.classList.remove('at-hero');
+    };
+  }, []);
+
   return (
-    <section className="hero container" id="top">
-      <div className="hero-top label">
-        <span>Berkan Hergül</span>
-        <span className="hero-top-mid">Portfolio / {new Date().getFullYear()}</span>
-        <Clock />
-      </div>
+    <section className="hero" id="top" ref={ref}>
+      <Greeting onChange={setIndex} />
 
-      <div className="hero-main">
-        <p className="label hero-eyebrow">Media Design student @ Fontys, the Netherlands</p>
-        <h1>
-          {words('Design that looks good')}
-          <em className="word"><span style={{ '--i': 4 }}>and</span></em>{' '}
-          {words('works for the people using', 5)}
-          <span className="word"><span style={{ '--i': 10 }}>it.</span></span>
-        </h1>
-      </div>
-
-      <div className="hero-foot">
-        <p className="lead">
-          I&apos;m Berkan Hergül. I combine UX/UI design, branding and front-end development,
-          and I start every project by finding out what people actually need.
-        </p>
-        <div className="hero-actions">
-          <a className="btn btn-primary" href="#work">View my work</a>
-          <a className="btn" href="#contact">Get in touch</a>
+      <div className="hero-layer container">
+        <div className="hero-top label">
+          <span>Berkan Hergül</span>
+          <span className="hero-top-mid">Portfolio / {new Date().getFullYear()}</span>
+          <Clock />
         </div>
-        <p className="status label">
-          <span className="status-dot" aria-hidden="true" />
-          Open to internships &amp; projects
+
+        <h1 className="sr-only">Berkan Hergül, designer and front-end developer</h1>
+
+        <p className="hero-lang label" aria-hidden="true">
+          <span key={greeting.word} className="hero-lang-text">
+            &ldquo;{greeting.word}&rdquo; in {greeting.lang}
+          </span>
+          <span className="hero-play">move your cursor through the letters</span>
         </p>
+
+        <div className="hero-bottom">
+          <p className="hero-welcome">
+            Welcome in. I&apos;m <strong>Berkan</strong>, a designer who also builds things for the web.
+          </p>
+          <a className="hero-scroll label" href="#intro">
+            Scroll to enter
+            <span className="hero-scroll-line" aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </section>
   );

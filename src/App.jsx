@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import Intro from './components/Intro';
 import Work from './components/Work';
 import About from './components/About';
 import Contact from './components/Contact';
@@ -117,6 +118,7 @@ export default function App() {
         ) : (
           <>
             <Hero />
+            <Intro />
             <Marquee />
             <Work />
             <About />

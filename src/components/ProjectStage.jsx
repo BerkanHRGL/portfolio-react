@@ -4,7 +4,6 @@ const RAMP = ' .:-=+*#%@';
 const NOISE = '#@%&$*+=';
 const COLS = 120;
 const TRANSITION = 900; // ms for one project to dissolve into the next
-const LENS = 150; // radius of the "real image" circle under the pointer
 
 const clamp01 = n => Math.min(1, Math.max(0, n));
 
@@ -64,8 +63,8 @@ function fitRect(img, width, height, contain) {
 
 /**
  * Draws the active project's image as animated ASCII on a canvas.
- * Changing `active` dissolves one image into the next through a band of noise,
- * and the area under the pointer shows the real image through a round lens.
+ * Changing `active` dissolves one image into the next through a band of noise.
+ * The real image sits on top in Work.jsx and fades in on hover.
  */
 export default function ProjectStage({ projects, active }) {
   const canvasRef = useRef(null);
@@ -101,7 +100,6 @@ export default function ProjectStage({ projects, active }) {
     let raf = 0, lastDraw = 0, frame = 0;
     let visible = false;
     let ink = '#000', accent = '#c2410c', dark = false;
-    const lens = { x: 0, y: 0, tx: 0, ty: 0, r: 0, on: false };
 
     const gridFor = index => {
       if (index < 0) return pattern;
@@ -163,29 +161,6 @@ export default function ProjectStage({ projects, active }) {
           ctx.fillText(noise, 0, y * fontSize);
         }
       }
-
-      // Lens: the real image, clipped to a circle that follows the pointer.
-      lens.x += (lens.tx - lens.x) * 0.2;
-      lens.y += (lens.ty - lens.y) * 0.2;
-      lens.r += ((lens.on ? LENS : 0) - lens.r) * 0.16;
-      const img = images[state.to];
-      if (lens.r > 2 && img && img.complete && img.naturalWidth) {
-        const contain = projects[state.to].fit === 'contain';
-        const fit = fitRect(img, width, height, contain);
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(lens.x, lens.y, lens.r, 0, Math.PI * 2);
-        ctx.clip();
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, width, height);
-        ctx.drawImage(img, fit.x, fit.y, fit.w, fit.h);
-        ctx.restore();
-        ctx.beginPath();
-        ctx.arc(lens.x, lens.y, lens.r, 0, Math.PI * 2);
-        ctx.strokeStyle = accent;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-      }
     };
 
     const loop = now => {
@@ -231,27 +206,12 @@ export default function ProjectStage({ projects, active }) {
     });
     io.observe(canvas);
 
-    const onMove = event => {
-      const rect = canvas.getBoundingClientRect();
-      lens.tx = event.clientX - rect.left;
-      lens.ty = event.clientY - rect.top;
-      if (!lens.on) {
-        lens.x = lens.tx;
-        lens.y = lens.ty;
-        lens.on = true;
-      }
-    };
-    const onLeave = () => { lens.on = false; };
-    canvas.addEventListener('pointermove', onMove);
-    canvas.addEventListener('pointerleave', onLeave);
     document.addEventListener('visibilitychange', sync);
 
     return () => {
       cancelAnimationFrame(raf);
       resizer.disconnect();
       io.disconnect();
-      canvas.removeEventListener('pointermove', onMove);
-      canvas.removeEventListener('pointerleave', onLeave);
       document.removeEventListener('visibilitychange', sync);
     };
   }, [projects]);

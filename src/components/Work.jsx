@@ -111,9 +111,19 @@ function Showcase() {
         <Screen className="stage-screen" href={href} tabIndex={href ? -1 : undefined} aria-hidden="true">
           <div className="frame-bar">
             <span>{fileName(project, active)}</span>
-            <span>{project.thumbnail ? 'move over the image' : 'no preview yet'}</span>
+            <span>{project.thumbnail ? 'hover to view' : 'no preview yet'}</span>
           </div>
-          <ProjectStage projects={projects} active={active} />
+          <div className="stage-view">
+            <ProjectStage projects={projects} active={active} />
+            {project.thumbnail && (
+              <img
+                className={`stage-real${project.fit === 'contain' ? ' contain' : ''}`}
+                src={project.thumbnail}
+                alt=""
+                decoding="async"
+              />
+            )}
+          </div>
         </Screen>
       </div>
     </div>

@@ -59,7 +59,7 @@ export default function Loader() {
       unmountTimer = setTimeout(() => setShow(false), 700);
     };
     const tick = now => {
-      const progress = Math.min(1, (now - start) / DURATION);
+      const progress = Math.min(1, Math.max(0, (now - start) / DURATION));
       if (progress === 1) return finish();
       if (now - lastDraw > 45) {
         lastDraw = now;
