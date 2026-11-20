@@ -30,7 +30,7 @@ function ThemeToggle() {
 
 // The navigation floats as a pill at the bottom of the screen;
 // a thin line at the very top shows how far down the page you are.
-export default function Header() {
+export default function Header({ page }) {
   const progressRef = useRef(null);
 
   useEffect(() => {
@@ -52,6 +52,28 @@ export default function Header() {
     };
   }, []);
 
+  // Highlight the section you are in.
+  const [current, setCurrent] = useState(null);
+  useEffect(() => {
+    const sections = ['work', 'about', 'contact'].map(id => document.getElementById(id)).filter(Boolean);
+    if (!sections.length) return;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setCurrent(entry.target.id);
+        else setCurrent(id => (id === entry.target.id ? null : id));
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    sections.forEach(section => io.observe(section));
+    return () => {
+      io.disconnect();
+      setCurrent(null);
+    };
+  }, [page]);
+
+  const link = (id, text) => (
+    <a href={`#${id}`} data-scramble-hover aria-current={current === id ? 'true' : undefined}>{text}</a>
+  );
+
   return (
     <header className="dock">
       <div className="progress" ref={progressRef} aria-hidden="true" />
@@ -60,9 +82,9 @@ export default function Header() {
           <span className="pill-dot" aria-hidden="true" />
           Berkan
         </a>
-        <a href="#work" data-scramble-hover>Work</a>
-        <a href="#about" data-scramble-hover>About</a>
-        <a href="#contact" data-scramble-hover>Contact</a>
+        {link('work', 'Work')}
+        {link('about', 'About')}
+        {link('contact', 'Contact')}
         <ThemeToggle />
       </nav>
     </header>

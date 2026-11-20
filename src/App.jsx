@@ -11,6 +11,9 @@ import Lightbox from './components/Lightbox';
 import Marquee from './components/Marquee';
 import AsciiField from './components/AsciiField';
 import Loader from './components/Loader';
+import Outro from './components/Outro';
+import CursorTrail from './components/CursorTrail';
+import AsciiWipe from './components/AsciiWipe';
 import { reducedMotion, scramble } from './utils/motion';
 import { projectData } from './data/projectData';
 import { showcaseProjects } from './data/showcaseProjects';
@@ -32,7 +35,7 @@ export default function App() {
   const targetRef = useRef(route); // the route we are on, or heading to
 
   // Switching between home and a case study plays a short wipe:
-  // bars cover the screen, the page swaps underneath, bars leave.
+  // characters cover the screen, the page swaps underneath, characters clear.
   useEffect(() => {
     let timers = [];
     const onHashChange = () => {
@@ -70,6 +73,33 @@ export default function App() {
     };
     document.addEventListener('pointerover', onOver);
     return () => document.removeEventListener('pointerover', onOver);
+  }, []);
+
+  // Buttons marked data-magnetic lean towards the mouse while it is over them.
+  useEffect(() => {
+    if (reducedMotion() || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    let active = null;
+    const release = () => {
+      if (active) active.style.translate = '';
+      active = null;
+    };
+    const onMove = event => {
+      const el = event.target.closest?.('[data-magnetic]');
+      if (el !== active) release();
+      if (!el) return;
+      active = el;
+      const rect = el.getBoundingClientRect();
+      const x = (event.clientX - (rect.left + rect.width / 2)) * 0.3;
+      const y = (event.clientY - (rect.top + rect.height / 2)) * 0.4;
+      el.style.translate = `${x.toFixed(1)}px ${y.toFixed(1)}px`;
+    };
+    document.addEventListener('pointermove', onMove, { passive: true });
+    document.documentElement.addEventListener('pointerleave', release);
+    return () => {
+      release();
+      document.removeEventListener('pointermove', onMove);
+      document.documentElement.removeEventListener('pointerleave', release);
+    };
   }, []);
 
   // Scroll handling when switching between home and a case study.
@@ -111,7 +141,7 @@ export default function App() {
       <AsciiField />
       <Loader />
       <a className="skip-link" href="#main">Skip to content</a>
-      <Header />
+      <Header page={route.page} />
       <main id="main">
         {route.page === 'project' ? (
           <ProjectPage key={route.key} projectKey={route.key} onImage={setLightbox} />
@@ -123,17 +153,14 @@ export default function App() {
             <Work />
             <About />
             <Contact />
+            <Outro />
           </>
         )}
       </main>
       <Footer />
       <Lightbox image={lightbox} onClose={() => setLightbox(null)} />
-      {wipe && (
-        <div className={`wipe ${wipe.phase}`} aria-hidden="true">
-          {Array.from({ length: 6 }, (_, i) => <span key={i} style={{ '--i': i }} />)}
-          <p className="wipe-label">{wipe.label}</p>
-        </div>
-      )}
+      <CursorTrail />
+      {wipe && <AsciiWipe phase={wipe.phase} duration={wipe.phase === 'cover' ? 380 : 420} label={wipe.label} />}
     </>
   );
 }

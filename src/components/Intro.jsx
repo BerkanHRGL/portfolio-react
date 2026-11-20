@@ -63,8 +63,8 @@ export default function Intro() {
 
       <div className="intro-foot" data-reveal>
         <div className="hero-actions">
-          <a className="btn btn-primary" href="#work">View my work</a>
-          <a className="btn" href="#contact">Get in touch</a>
+          <a className="btn btn-primary" href="#work" data-magnetic>View my work</a>
+          <a className="btn" href="#contact" data-magnetic>Get in touch</a>
         </div>
         <p className="status label">
           <span className="status-dot" aria-hidden="true" />

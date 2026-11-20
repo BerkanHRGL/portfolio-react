@@ -83,7 +83,7 @@ function Showcase() {
             <h3>{words(project.title)}</h3>
             <p className="stage-desc">{project.desc}</p>
             {href ? (
-              <a className="btn btn-primary" href={href}>
+              <a className="btn btn-primary" href={href} data-magnetic>
                 Open case study <span aria-hidden="true">→</span>
               </a>
             ) : (

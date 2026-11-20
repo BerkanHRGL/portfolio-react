@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import Clock from './Clock';
-import Greeting from './Greeting';
+import ParticleCanvas from './ParticleCanvas';
 import { GREETINGS } from '../data/greetings';
+
+const HELLO_SHAPES = GREETINGS.map(g => ({ text: g.word }));
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
@@ -14,7 +16,7 @@ export default function Hero() {
     // Set straight away too: the observer only reports after the first frame.
     html.classList.toggle('at-hero', ref.current.getBoundingClientRect().bottom > window.innerHeight * 0.35);
     const io = new IntersectionObserver(
-      ([entry]) => html.classList.toggle('at-hero', entry.isIntersecting),
+      ([entry]) => html.classList.toggle('at-hero', entry.intersectionRatio >= 0.35),
       { threshold: 0.35 }
     );
     io.observe(ref.current);
@@ -26,7 +28,13 @@ export default function Hero() {
 
   return (
     <section className="hero" id="top" ref={ref}>
-      <Greeting onChange={setIndex} />
+      <ParticleCanvas
+        className="greeting"
+        shapes={HELLO_SHAPES}
+        start="loaded"
+        repel={0.75}
+        onChange={setIndex}
+      />
 
       <div className="hero-layer container">
         <div className="hero-top label">
