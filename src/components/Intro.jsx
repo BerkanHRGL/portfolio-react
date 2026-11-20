@@ -199,7 +199,7 @@ export default function Intro() {
               return [
                 <a
                   key={p}
-                  className="key"
+                  className="key serif"
                   href={`#/work/${piece.project.key}`}
                   data-project={piece.project.key}
                   title={`See ${piece.project.title}`}

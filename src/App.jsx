@@ -14,6 +14,7 @@ import Loader from './components/Loader';
 import Outro from './components/Outro';
 import CursorTrail from './components/CursorTrail';
 import AsciiWipe from './components/AsciiWipe';
+import Riso from './components/Riso';
 import { reducedMotion, scramble } from './utils/motion';
 import { projectData } from './data/projectData';
 import { showcaseProjects } from './data/showcaseProjects';
@@ -138,6 +139,7 @@ export default function App() {
 
   return (
     <>
+      <Riso />
       <AsciiField />
       <Loader />
       <a className="skip-link" href="#main">Skip to content</a>

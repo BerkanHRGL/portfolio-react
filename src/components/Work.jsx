@@ -190,7 +190,7 @@ export default function Work() {
   return (
     <section className="section work" id="work">
       <div className="container">
-        <SectionHead number="01" label="Work" title="Selected projects">
+        <SectionHead number="01" label="Work" title="Selected *projects*">
           Branding, UX research and front-end builds from my studies and my own time.
           Each one opens a full case study with the process behind it.
         </SectionHead>

@@ -19,7 +19,7 @@ const skills = [
 export default function About() {
   return (
     <section className="section container" id="about">
-      <SectionHead number="02" label="About" title="A designer who also builds" />
+      <SectionHead number="02" label="About" title="A designer who also *builds*" />
 
       <div className="about-grid">
         <div className="about-text">

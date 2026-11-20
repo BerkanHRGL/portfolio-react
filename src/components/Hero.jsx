@@ -54,7 +54,7 @@ export default function Hero() {
 
         <div className="hero-bottom">
           <p className="hero-welcome">
-            Welcome in. I&apos;m <strong>Berkan</strong>, a designer who also builds things for the web.
+            <em className="serif">Welcome in.</em> I&apos;m <strong>Berkan</strong>, a designer who also builds things for the web.
           </p>
           <a className="hero-scroll label" href="#intro">
             Scroll to enter

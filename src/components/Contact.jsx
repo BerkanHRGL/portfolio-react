@@ -10,7 +10,7 @@ const links = [
 export default function Contact() {
   return (
     <section className="section container contact-section" id="contact">
-      <SectionHead number="03" label="Contact" title="Let's make something together">
+      <SectionHead number="03" label="Contact" title="Let's make something *together*">
         Got an internship, a project or a question about my work? Send me a message.
         I usually reply within 24 hours.
       </SectionHead>
