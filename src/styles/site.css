@@ -341,28 +341,138 @@ button { font: inherit; color: inherit; }
   transform: translateY(-100%);
 }
 
-/* ---------- Intro statement ---------- */
-.intro {
-  padding-block: clamp(96px, 22vh, 220px) clamp(72px, 14vh, 160px);
-}
-.intro-text {
-  margin-top: 28px;
-  max-width: 24ch;
-  font-weight: 600;
-  font-size: clamp(32px, 5vw, 80px);
-  line-height: 1.04;
-  letter-spacing: -0.04em;
-}
-.intro-text span { transition: opacity 0.2s linear; }
-.intro-text .accent { color: var(--accent); }
-.intro-foot {
+/* ---------- Intro: the living sentence ---------- */
+/* A tall track; the stage inside it sticks while the sentence types itself in */
+.intro-track { height: 260vh; }
+.intro-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
-  gap: 20px 40px;
-  margin-top: clamp(40px, 6vw, 72px);
+  gap: clamp(20px, 4vh, 40px);
+  padding-block: clamp(28px, 6vh, 56px) clamp(88px, 13vh, 120px);
 }
+.intro-top { display: flex; justify-content: space-between; gap: 16px; }
+.intro-meter { color: var(--ink); font-variant-numeric: tabular-nums; white-space: pre; }
+
+.intro-sentence {
+  font-weight: 600;
+  font-size: clamp(34px, 6.2vw, 104px);
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+  text-wrap: pretty;
+}
+.intro-sentence .w { white-space: nowrap; }
+
+/* Character states: not typed yet, decoding, typed */
+.c { transition: opacity 0.3s ease, color 0.3s ease; }
+.c.off { opacity: 0.1; }
+.c.scr { position: relative; color: transparent; }
+.c.scr::after {
+  content: attr(data-g);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.8em;
+  line-height: 1.32;
+}
+
+/* Orange words are links to the project they describe */
+.key {
+  position: relative;
+  color: var(--accent);
+  text-decoration: none;
+}
+.key::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.02em;
+  height: 0.05em;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s var(--ease);
+}
+.key:hover::after,
+.key:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+
+/* ASCII animations in pills between the words */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 0.82em;
+  padding: 0 0.2em;
+  border: max(1px, 0.035em) solid var(--ink);
+  border-radius: 999px;
+  /* centre the pill on the capital letters rather than on the baseline */
+  vertical-align: middle;
+  position: relative;
+  top: -0.1em;
+  background: var(--surface);
+  transform: scale(0);
+  transition: transform 0.6s var(--ease);
+}
+.badge.on { transform: none; }
+.badge pre {
+  margin: 0;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: calc(0.6em / var(--rows));
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: pre;
+  color: var(--ink);
+}
+
+.intro-foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 20px clamp(24px, 5vw, 72px);
+}
+.intro-lead {
+  max-width: 46ch;
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.45;
+  color: var(--muted);
+}
+.intro-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
+
+/* Preview card for the orange words */
+.intro-card {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  width: min(320px, 28vw);
+  pointer-events: none;
+  opacity: 0;
+  clip-path: inset(100% 0 0 0);
+  transition: opacity 0.2s ease, clip-path 0.45s var(--ease);
+}
+.intro-card.on { opacity: 1; clip-path: inset(0); }
+.intro-card-item { display: none; background: var(--ink); color: var(--bg); }
+.intro-card-item.on { display: block; }
+.intro-card img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.intro-card img.contain { object-fit: contain; background: #fff; }
+.intro-card p {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  color: inherit;
+}
+.intro-card strong { font-weight: 700; }
+
 .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .status { display: flex; align-items: center; gap: 9px; }
 .status-dot {
@@ -794,6 +904,9 @@ a.stage-screen { cursor: pointer; }
 
   .hero-lang-text { animation: fade-up 0.5s ease both; }
   .outro-lang span { animation: fade-up 0.5s ease both; }
+  .js .intro-foot > * { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.7s var(--ease); }
+  .js .intro-stage.done .intro-foot > * { opacity: 1; transform: none; }
+  .js .intro-stage.done .intro-foot > :nth-child(2) { transition-delay: 0.12s; }
   [data-magnetic] { transition: translate 0.4s var(--ease), background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
   .about-text p[data-reveal]:nth-child(2) { transition-delay: 0.1s; }
   .about-text p[data-reveal]:nth-child(3) { transition-delay: 0.2s; }
@@ -856,6 +969,9 @@ a.stage-screen { cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .intro-track { height: auto; }
+  .intro-stage { position: static; height: auto; min-height: 100svh; }
+  .badge { transform: none; }
   *, *::before, *::after { transition-duration: 0.01ms !important; }
 }
 
@@ -864,6 +980,9 @@ a.stage-screen { cursor: pointer; }
   :root { --field: color-mix(in srgb, var(--ink) 24%, var(--bg)); }
   .about-grid { grid-template-columns: minmax(0, 1fr); }
   .hero-lang { top: 64%; }
+  .intro-foot { grid-template-columns: minmax(0, 1fr); }
+  .intro-actions { align-items: flex-start; }
+  .intro-card { display: none; }
 }
 
 @media (max-width: 640px) {
