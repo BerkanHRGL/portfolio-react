@@ -19,7 +19,6 @@ function useMedia(query) {
 }
 
 const pad = n => String(n).padStart(2, '0');
-const fileName = (project, i) => `${pad(i + 1)}_${project.type.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.txt`;
 
 // Words slide up one after another each time the title changes.
 function words(text) {
@@ -78,9 +77,15 @@ function Showcase() {
             {' '}{pad(active + 1)} / {pad(projects.length)}
           </p>
 
-          <div className="stage-copy" key={project.key}>
-            <p className="label">{project.type} / {project.year}</p>
+          {/* Museum wall label */}
+          <div className="stage-copy wall-label" key={project.key}>
+            <p className="label">No. {pad(active + 1)}</p>
             <h3>{words(project.title)}</h3>
+            <p className="wall-artist">Berkan Hergül, {project.year}</p>
+            <dl className="wall-meta">
+              <div><dt className="label">Work</dt><dd>{project.type}{project.client !== 'Personal' ? ` for ${project.client}` : ''}</dd></div>
+              <div><dt className="label">Medium</dt><dd>{project.medium}</dd></div>
+            </dl>
             <p className="stage-desc">{project.desc}</p>
             {href ? (
               <a className="btn btn-primary" href={href} data-magnetic>
@@ -91,6 +96,8 @@ function Showcase() {
             )}
           </div>
 
+          <div className="stage-plan">
+          <p className="label stage-plan-title">Floor plan</p>
           <ol className="stage-index">
             {projects.map((item, i) => (
               <li key={item.key}>
@@ -106,13 +113,11 @@ function Showcase() {
               </li>
             ))}
           </ol>
+          </div>
         </div>
 
-        <Screen className="stage-screen" href={href} tabIndex={href ? -1 : undefined} aria-hidden="true">
-          <div className="frame-bar">
-            <span>{fileName(project, active)}</span>
-            <span>{project.thumbnail ? 'hover to view' : 'no preview yet'}</span>
-          </div>
+        <figure className="stage-art">
+        <Screen className="stage-screen artwork" href={href} tabIndex={href ? -1 : undefined} aria-hidden="true">
           <div className="stage-view">
             <ProjectStage projects={projects} active={active} />
             {project.thumbnail && (
@@ -125,6 +130,11 @@ function Showcase() {
             )}
           </div>
         </Screen>
+          <figcaption className="label stage-caption" aria-hidden="true">
+            <span>Fig. {pad(active + 1)}, rendered in ASCII</span>
+            <span>{project.thumbnail ? 'Hover to see the original' : 'Original not on view yet'}</span>
+          </figcaption>
+        </figure>
       </div>
     </div>
   );
@@ -150,14 +160,10 @@ function Cards() {
 
   return (
     <div className="cards" ref={ref}>
-      {projects.map((project, i) => {
+      {projects.map(project => {
         const body = (
           <>
-            <div className="card-media">
-              <div className="frame-bar">
-                <span>{fileName(project, i)}</span>
-                <span>{project.comingSoon ? 'soon' : 'ascii'}</span>
-              </div>
+            <div className="card-media artwork">
               {project.thumbnail ? (
                 <AsciiImage src={project.thumbnail} fit={project.fit} flat={project.fit === 'contain'} />
               ) : (
@@ -169,6 +175,7 @@ function Cards() {
               {project.title}
               {!project.comingSoon && <span aria-hidden="true"> →</span>}
             </h3>
+            <p className="card-medium">Medium: {project.medium}</p>
             <p className="card-desc">{project.desc}</p>
           </>
         );
@@ -190,7 +197,7 @@ export default function Work() {
   return (
     <section className="section work" id="work">
       <div className="container">
-        <SectionHead number="01" label="Work" title="Selected *projects*">
+        <SectionHead number="01" label="Work" title="Selected *works*">
           Branding, UX research and front-end builds from my studies and my own time.
           Each one opens a full case study with the process behind it.
         </SectionHead>

@@ -402,3 +402,6 @@
   .toc a.active::before { content: none; }
   .toc a.active { text-decoration: underline; text-underline-offset: 5px; }
 }
+
+/* Gallery: the cover hangs as a framed work with a caption */
+.project-cover { margin: 0; }

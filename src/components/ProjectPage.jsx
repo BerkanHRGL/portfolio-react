@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import AsciiImage from './AsciiImage';
-import Frame from './Frame';
 import { projectData } from '../data/projectData';
 import { showcaseProjects } from '../data/showcaseProjects';
 
@@ -191,7 +190,8 @@ export default function ProjectPage({ projectKey, onImage }) {
       </header>
 
       {meta.thumbnail && (
-        <Frame title={`${projectKey}_cover`} className="project-cover">
+        <figure className="project-cover">
+          <div className="artwork">
           <AsciiImage
             src={meta.thumbnail}
             alt={`${meta.title} cover image`}
@@ -202,7 +202,12 @@ export default function ProjectPage({ projectKey, onImage }) {
             auto
             eager
           />
-        </Frame>
+          </div>
+          <figcaption className="label stage-caption">
+            <span><em className="serif">{meta.title}</em>, {meta.year}</span>
+            <span>Medium: {meta.medium}</span>
+          </figcaption>
+        </figure>
       )}
 
       <div className="project-layout">

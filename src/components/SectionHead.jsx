@@ -7,7 +7,7 @@ export default function SectionHead({ number, label, title, children }) {
   return (
     <header className="section-head" data-reveal>
       <p className="label section-label">
-        <span className="section-number">{number}</span>
+        <span className="section-number">Room {number}</span>
         <span data-scramble>{label}</span>
       </p>
       <h2 data-scramble>{styled(title)}</h2>

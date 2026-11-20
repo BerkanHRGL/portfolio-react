@@ -41,10 +41,7 @@ export default function About() {
 
         <aside className="about-side" data-reveal>
           <figure className="portrait">
-            <figcaption className="frame-bar">
-              <span>berkan.png</span>
-              <span className="portrait-hint">move through me</span>
-            </figcaption>
+            <div className="artwork">
             <ParticleCanvas
               className="portrait-canvas"
               shapes={PORTRAIT}
@@ -54,7 +51,13 @@ export default function About() {
               dust={140}
               repel={0.55}
             />
-            <span className="sr-only">Portrait of Berkan, drawn in moving characters</span>
+            </div>
+            <figcaption className="wall-label wall-label-small">
+              <span><em className="serif">Self-portrait</em>, 2026</span>
+              <span className="label">Moving characters on canvas</span>
+              <span className="label portrait-hint">Interactive: move through it</span>
+              <span className="sr-only">Portrait of Berkan, drawn in moving characters</span>
+            </figcaption>
           </figure>
           <dl className="facts">
             {facts.map(fact => (

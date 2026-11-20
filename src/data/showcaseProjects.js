@@ -1,8 +1,10 @@
 // Card + header info for each project. `key` matches an entry in projectData.js.
 // `fit: 'contain'` is for logo-style thumbnails that should not be cropped.
+// `medium` is the short tool list shown on the gallery wall label.
 export const showcaseProjects = [
   {
     key: 'branding',
+    medium: 'Figma, Illustrator, Photoshop',
     title: 'Boris Schmidt',
     thumbnail: 'imgs/boris-thumbnail.png',
     type: 'Branding',
@@ -12,6 +14,7 @@ export const showcaseProjects = [
   },
   {
     key: 'ux',
+    medium: 'Interviews, Figma, WCAG 2.2',
     title: 'Cardan: UX research & concept',
     thumbnail: 'imgs/cardan-logo.png',
     fit: 'contain',
@@ -22,6 +25,7 @@ export const showcaseProjects = [
   },
   {
     key: 'development',
+    medium: 'HTML, CSS, JavaScript',
     title: 'Cardan: simulation games',
     thumbnail: 'imgs/cardandev_design.png',
     type: 'Front-End Development',
@@ -31,6 +35,7 @@ export const showcaseProjects = [
   },
   {
     key: 'projectx',
+    medium: 'Figma, Illustrator, HTML, CSS, JavaScript',
     title: 'Petchi',
     thumbnail: 'imgs/petchi-thumbnail.png',
     type: 'Personal Project',
@@ -40,6 +45,7 @@ export const showcaseProjects = [
   },
   {
     key: 'portfolio',
+    medium: 'Figma, React, Vite',
     title: 'Portfolio v1',
     thumbnail: 'imgs/portfolio-thumbnail.png',
     type: 'Portfolio',
@@ -49,6 +55,7 @@ export const showcaseProjects = [
   },
   {
     key: 'overruled',
+    medium: 'Kotlin, Jetpack Compose, Gemini API',
     title: 'Overruled',
     thumbnail: null,
     type: 'Android App',

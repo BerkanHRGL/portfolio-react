@@ -39,7 +39,7 @@ export default function Hero() {
       <div className="hero-layer container">
         <div className="hero-top label">
           <span>Berkan Hergül</span>
-          <span className="hero-top-mid">Portfolio / {new Date().getFullYear()}</span>
+          <span className="hero-top-mid">A solo exhibition / {new Date().getFullYear()}</span>
           <Clock />
         </div>
 

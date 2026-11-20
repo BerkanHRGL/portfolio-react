@@ -185,7 +185,7 @@ export default function Intro() {
         <div className="intro-stage container" ref={stageRef}>
           <div className="intro-top label">
             <p className="section-label">
-              <span className="section-number">00</span>
+              <span className="section-number">Foyer</span>
               <span>Nice to meet you</span>
             </p>
             <p className="intro-meter" ref={meterRef} aria-hidden="true">[░░░░░░░░░░░░] 000%</p>

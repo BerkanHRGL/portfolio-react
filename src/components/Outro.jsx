@@ -36,7 +36,7 @@ export default function Outro() {
         onChange={setIndex}
       />
       <div className="outro-layer container">
-        <p className="label">Thanks for scrolling all the way down</p>
+        <p className="label">Thank you for visiting the exhibition</p>
         <p className="label outro-lang" aria-hidden="true">
           <span key={bye.word}>&ldquo;{bye.word}&rdquo; in {bye.lang}</span>
         </p>
